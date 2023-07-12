@@ -17,8 +17,8 @@ Account::Account(int initial_deposit)
 	this->_amount = initial_deposit;
 	this->_nbDeposits = 0;
 	this->_nbWithdrawals = 0;
-	this->_totalAmount += initial_deposit;
-	this->_nbAccounts++;
+	Account::_totalAmount += initial_deposit;
+	Account::_nbAccounts++;
 	return;
 }
 
@@ -28,6 +28,7 @@ Account::~Account()
 	std::cout << " index:" << this->_accountIndex;
 	std::cout << ";amount:" << this->_amount;
 	std::cout << ";closed" << std::endl;
+	Account::_nbAccounts--;
 	return;
 }
 
@@ -50,7 +51,7 @@ void	Account::makeDeposit(int deposit)
 	std::cout << ";amount:" << this->_amount;
 	std::cout << ";nb_deposits:" << ++this->_nbDeposits;
 	std::cout << std::endl;
-	this->_totalNbDeposits++;
+	Account::_totalNbDeposits++;
 }
 
 bool	Account::makeWithdrawal(int withdrawal)
@@ -69,7 +70,7 @@ bool	Account::makeWithdrawal(int withdrawal)
 	this->_amount -= withdrawal;
 	std::cout << ";amount:" << this->_amount;
 	std::cout << ";nb_withdrawals:" << ++this->_nbWithdrawals;
-	this->_totalNbWithdrawals++;
+	Account::_totalNbWithdrawals++;
 	std::cout << std::endl;
 	return true;
 }
@@ -86,20 +87,20 @@ void	Account::displayStatus() const
 
 int	Account::getNbAccounts()
 {
-	return (_nbAccounts);
+	return (Account::_nbAccounts);
 }
 int	Account::getTotalAmount()
 {
-	return (_totalAmount);
+	return (Account::_totalAmount);
 }
 int	Account::getNbDeposits()
 {
-	return (_totalNbDeposits);
+	return (Account::_totalNbDeposits);
 }
 
 int	Account::getNbWithdrawals () 
 {
-	return (_totalNbWithdrawals);
+	return (Account::_totalNbWithdrawals);
 }
 
 // int	Account::checkAmount() const;
