@@ -2,7 +2,7 @@ CC = c++
 CCFLAGS = -Wall -Werror -Wextra
 
 RM = rm -f
-SRCS = main.cpp
+SRCS = main.cpp mySed.cpp
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 
 NAME = my_sed
