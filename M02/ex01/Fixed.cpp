@@ -17,22 +17,12 @@ void	Fixed::setRawBits(int raw)
 
 int	Fixed::toInt(void) const
 {
-	return(this->_value >> 8);
+	return(this->_value >> _fractional_bits);
 }
 
 float	Fixed::toFloat(void) const
 {
-	float	res;
-	float	cur_bit;
-
-	res = this->_value >> 8;
-	for (int i = 1; i <= _fractional_bits; i++)
-	{
-		cur_bit = pow(2, -i);
-		if (this->_value & 1 << (_fractional_bits - i))
-			res += cur_bit;
-	}
-	return (res);
+	return ((float)this->_value / (1 << _fractional_bits));
 }
 
 Fixed::Fixed(void)
@@ -45,29 +35,15 @@ Fixed::Fixed(void)
 Fixed::Fixed(int const n)
 {
 	std::cout <<  GRAY<<"Int constructor called"NO_COLOR << std::endl;
-	this->_value = n << 8;
+	this->_value = n << _fractional_bits;
 	return ;
 }
 
 Fixed::Fixed(float const n)
 {
-	float	fractional;
-	float	cur_bit;
-	int		raw_bit;
-	
+
+	this->_value = roundf((n *( 1 <<_fractional_bits)));
 	std::cout <<  GRAY<<"Float constructor called"NO_COLOR << std::endl;
-	fractional = n - (int)n;
-	raw_bit = (int)n << 8;
-	for (int i = 1; i <= _fractional_bits; i++)
-	{
-		cur_bit = pow(2, -i);
-		if (fractional >= cur_bit)
-		{
-			fractional -= cur_bit;
-			raw_bit |= 1 << (_fractional_bits - i);
-		}
-	}
-	this->_value = raw_bit;
 	return ;
 }
 

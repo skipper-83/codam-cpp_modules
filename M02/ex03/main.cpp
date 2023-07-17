@@ -1,6 +1,5 @@
 #include "Fixed.hpp"
 #include "Point.hpp"
-#include <iomanip>
 #define BOLD "\033[1m"
 
 bool bsp(Point const a, Point const b, Point const c, Point const point);
@@ -13,8 +12,12 @@ int	main(void)
 	Point inside_point(2.22, 2.22);
 	Point outside_point(7, 7);
 	Point vertex_point (4.5, 5.5);
-	Point line_point (4.5, 5.5);
-	
+	Point line_point (2.5, 5.5);
+	Point test;
+	test = line_point;
+
+	std::cout << "Values of point created with copy assignment operator: " << test << std::endl;
+
 	std::cout << std::endl << BOLD"Triangle: A" << a << " B" << b << " C" << c << NO_COLOR << std::endl;
 	std::cout << std::boolalpha << std::fixed << std::setw(6) << std::endl;
 	std::cout << "Inside point:\t" << inside_point << " -> " << bsp(a, b, c, inside_point) << std::endl;

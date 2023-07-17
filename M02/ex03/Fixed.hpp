@@ -2,6 +2,7 @@
 # define FIXED_HPP
 # include <iostream>
 # include <iomanip>
+# include <cmath>
 # define GRAY "\e[38;5;243m"
 # define NO_COLOR "\e[0m"
 

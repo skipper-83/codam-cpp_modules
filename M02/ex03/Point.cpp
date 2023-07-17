@@ -24,7 +24,13 @@ Point::~Point()
 	return ;
 }
 
-float	Point::getX(void) const
+Point &Point::operator=(Point const &src)
+{
+	std::cout << "Assignment operator can only return a point set to (0,0) as setting the constant member variables is impossible from this function" << std::endl;
+	return (*this);
+}
+
+float Point::getX(void) const
 {
 	return (this->_x.toFloat());
 }
