@@ -1,26 +1,26 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(10), _energy(10), _attack_damage(0)
+ClapTrap::ClapTrap(void) : _name("generic ClapTrap"), _health(0), _energy(0), _attack_damage(0)
 {
-	std::cout << GRAY"Standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY"ClapTrap standard constructor called"NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::ClapTrap(std::string name) : _name(name), _health(10), _energy(10), _attack_damage(0)
 {
-	std::cout << GRAY"String constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY"ClapTrap string constructor called"NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::ClapTrap(ClapTrap const& src) : _name(src._name), _energy(src._energy), _attack_damage(src._attack_damage), _health(src._health)
 {
-	std::cout << GRAY"Copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY"ClapTrap copy constructor called"NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << GRAY"Destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY"ClapTrap destructor called"NO_COLOR << std::endl;
 	return ;
 }
 

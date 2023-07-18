@@ -88,8 +88,8 @@ Fixed	Fixed::operator-(Fixed const& b)
 Fixed	Fixed::operator*(Fixed const& b)
 {
 	Fixed	res;
-	res._value = this->_value * b._value;
-	res._value = res._value >> 8;
+	long	product = (long)this->_value * b._value;
+	res._value = (int)(product >> 8);
 	return (res);
 }
 
