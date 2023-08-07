@@ -18,4 +18,6 @@ int	main(void)
 	fake.whoAmI();
 	fake = jewel;
 	fake.whoAmI();
+	fake.guardGate();
+	fake.highFivesGuys();
 }

@@ -9,10 +9,22 @@ DiamondTrap::DiamondTrap(void) : ScavTrap(), FragTrap(), ClapTrap()
 DiamondTrap::DiamondTrap(std::string name) : ScavTrap(name), FragTrap(name), ClapTrap(name + "_clap_name")
 {
 	std::cout << GRAY"DiamondTrap string constructor called"NO_COLOR << std::endl;
+	std::cout << EXTRA"Grabbing value of ScavTrap energy with temp instance. This is why I create another ClapTrap"NO_COLOR << std::endl;
+	ScavTrap temp;
+	
+	std::cout << FragTrap::_energy <<" FragTrap Energy" << std::endl;
+	std::cout << this->_energy <<" FragTrap Energy" << std::endl;
+	std::cout << ScavTrap::_energy <<" ScavTrap Energy" << std::endl;
+	std::cout << temp.getEnergy() <<" temp Energy" << std::endl;
+	
 	this->_name = name;
 	this->_health = FragTrap::_health;
 	this->_attack_damage = FragTrap::_attack_damage;
-	this->_energy = ScavTrap::_energy;
+	this->_energy = ScavTrap::_energy = temp.getEnergy();
+	std::cout << FragTrap::_energy <<" FragTrap Energy" << std::endl;
+	std::cout << this->_energy <<" FragTrap Energy" << std::endl;
+	std::cout << ScavTrap::_energy <<" ScavTrap Energy" << std::endl;
+	std::cout << EXTRA"I will destroy this temp instance and its ClapTrap parent now"NO_COLOR << std::endl;
 	return ;
 }
 
@@ -38,7 +50,7 @@ void DiamondTrap::whoAmI(void)
 	std::cout << "I am a ClapTrap named " << this->ClapTrap::_name << " my DiamondTrap name is " << this->_name << std::endl;
 }
 
-void	DiamondTrap::attack(std::string name)
-{
-	ScavTrap::attack(name);
-}
+// void	DiamondTrap::attack(std::string name)
+// {
+// 	ScavTrap::attack(name);
+// }
