@@ -17,10 +17,15 @@ int	main(void)
 	std::cout << robot << std::endl;
 	robot.attack("enemies");
 	std::cout << copy << std::endl;
-	for(int i=0; i < 10; i++)
+	for(int i=0; i < 51; i++)
 		airfryer.attack("the enemies in his head");
 	std::cout << airfryer << std::endl;
 	airfryer.takeDamage(99);
+	airfryer.guardGate();
 	robot.guardGate();
 	robot.beRepaired(50);
+	robot.takeDamage(131);
+	robot.beRepaired(1);
+	robot.attack("something");
+	robot.guardGate();
 }

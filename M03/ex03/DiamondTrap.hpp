@@ -3,6 +3,7 @@
 
 # include "ScavTrap.hpp"
 # include "FragTrap.hpp"
+# define EXTRA "\e[38;5;200m"
 
 class DiamondTrap : public ScavTrap, public FragTrap
 {
@@ -15,7 +16,7 @@ class DiamondTrap : public ScavTrap, public FragTrap
 		DiamondTrap& operator=(DiamondTrap const& src);
 
 		void	whoAmI(void);
-		void	attack(std::string name);
+		using	ScavTrap::attack; 
 
 	private:
 		std::string _name;

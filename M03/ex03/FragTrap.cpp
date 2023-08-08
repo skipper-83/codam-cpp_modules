@@ -2,9 +2,6 @@
 
 FragTrap::FragTrap() : ClapTrap()
 {
-	this->_health = 100;
-	this->_energy = 100;
-	this->_attack_damage = 30;
 	std::cout << GRAY"FragTrap standard constructor called"NO_COLOR << std::endl;
 	return ;
 }
@@ -40,21 +37,29 @@ FragTrap::~FragTrap()
 	return ;
 }
 
-void	FragTrap::attack(std::string const& target)
+void FragTrap::attack(std::string const &target)
 {
-	if (this->_energy)
+	if (this->_energy && this->_health)
 	{
 		std::cout << "FragTrap " << this->_name << " attacks " << target << ", causing " << this->_attack_damage << " points of damage!" << std::endl;
 		--(this->_energy);
 	}
+	else if (!this->_health)
+		std::cout << "FragTrap " << this->_name << " is dead and therefore incapable of doing anything" << std::endl;
 	else
 		std::cout << "FragTrap " << this->_name << " has no energy left and cannot attack" << std::endl;
 	return ;
 }
 
+
 void	FragTrap::highFivesGuys(void)
 {
-	std::cout << "FragTrap " << this->_name << " is eagerly looking around for high fives" << std::endl;
+	if (this->_energy && this->_health)
+		std::cout << "FragTrap " << this->_name << " is eagerly looking around for high fives" << std::endl;
+	else if (!this->_energy)
+		std::cout << "FragTrap " << this->_name << " is too tired to look for high fives" << std::endl;
+	else
+		std::cout << "FragTrap " << this->_name << " is dead and cannot look for high fives" << std::endl;
 }
 
 // std::ostream&	operator<<(std::ostream& os, FragTrap const& t)

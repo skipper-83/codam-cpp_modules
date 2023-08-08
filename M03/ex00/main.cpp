@@ -24,4 +24,7 @@ int	main(void)
 		one.attack("the enemies in his head");
 	std::cout << one << std::endl;
 	one.beRepaired(7);
+	two.beRepaired(1);
+	two.attack("someone");
+	two.takeDamage(1);
 }
