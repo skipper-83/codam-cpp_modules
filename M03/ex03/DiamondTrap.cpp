@@ -8,35 +8,33 @@ DiamondTrap::DiamondTrap(void) : ScavTrap(), FragTrap(), ClapTrap()
 
 DiamondTrap::DiamondTrap(std::string name) : ScavTrap(name), FragTrap(name), ClapTrap(name + "_clap_name")
 {
-	std::cout << GRAY"DiamondTrap string constructor called"NO_COLOR << std::endl;
-	std::cout << EXTRA"Grabbing value of ScavTrap energy with temp instance. This is why I create another ClapTrap"NO_COLOR << std::endl;
-	ScavTrap temp;
-	
-	std::cout << FragTrap::_energy <<" FragTrap Energy" << std::endl;
-	std::cout << this->_energy <<" FragTrap Energy" << std::endl;
-	std::cout << ScavTrap::_energy <<" ScavTrap Energy" << std::endl;
-	std::cout << temp.getEnergy() <<" temp Energy" << std::endl;
-	
 	this->_name = name;
 	this->_health = FragTrap::_health;
 	this->_attack_damage = FragTrap::_attack_damage;
-	this->_energy = ScavTrap::_energy = temp.getEnergy();
-	std::cout << FragTrap::_energy <<" FragTrap Energy" << std::endl;
-	std::cout << this->_energy <<" FragTrap Energy" << std::endl;
-	std::cout << ScavTrap::_energy <<" ScavTrap Energy" << std::endl;
-	std::cout << EXTRA"I will destroy this temp instance and its ClapTrap parent now"NO_COLOR << std::endl;
-	return ;
+	this->_energy = ScavTrap::_energy;
+	std::cout << "FragTrap vaules\n" 
+	<< "\tHP: \n" << FragTrap::_health 
+	<< "\tAttack: \n" << FragTrap::_attack_damage 
+	<< "\tEnergy: \n" << FragTrap::_energy 
+	<< "ScavTrap vaules\n" 
+	<< "\tHP: \n" << ScavTrap::_health 
+	<< "\tAttack: \n" << ScavTrap::_attack_damage 
+	<< "\tEnergy: \n" << ScavTrap::_energy 
+	<< "DiamondTrap vaules\n"
+	<< "\tHP: \n" << this->_health 
+	<< "\tAttack: \n" << this->_attack_damage 
+	<< "\tEnergy: \n" << this->_energy << std::endl;
 }
 
 DiamondTrap::~DiamondTrap(void)
 {
-	std::cout << GRAY"DiamondTrap destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "DiamondTrap destructor called" << NO_COLOR << std::endl;
 }
 
 DiamondTrap& DiamondTrap::operator=(DiamondTrap const& src)
 {
 
-	std::cout << GRAY"DiamondTrap assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "DiamondTrap assignment operator called" << NO_COLOR << std::endl;
 	this->_name = src._name;
 	ClapTrap::_name = src.ClapTrap::_name;
 	this->_health = src._health;

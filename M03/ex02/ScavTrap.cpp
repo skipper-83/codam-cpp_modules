@@ -2,13 +2,13 @@
 
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	std::cout << GRAY"ScavTrap standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "ScavTrap standard constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
-	std::cout << GRAY"ScavTrap string constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "ScavTrap string constructor called" << NO_COLOR << std::endl;
 	this->_health = 100;
 	this->_energy = 50;
 	this->_attack_damage = 20;
@@ -17,13 +17,13 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 
 ScavTrap::ScavTrap(ScavTrap const& src) : ClapTrap(src)
 {
-	std::cout << GRAY"ScavTrap copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "ScavTrap copy constructor called" << NO_COLOR << std::endl;
 }
 
 ScavTrap& ScavTrap::operator=(ScavTrap const& src)
 {
 
-	std::cout << GRAY"ScavTrap assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "ScavTrap assignment operator called" << NO_COLOR << std::endl;
 	this->_name = src._name;
 	this->_health = src._health;
 	this->_attack_damage = src._attack_damage;
@@ -33,7 +33,7 @@ ScavTrap& ScavTrap::operator=(ScavTrap const& src)
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << GRAY"ScavTrap destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "ScavTrap destructor called" << NO_COLOR << std::endl;
 	return ;
 }
 

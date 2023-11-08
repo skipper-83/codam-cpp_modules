@@ -14,6 +14,12 @@ class ScavTrap : virtual public ClapTrap
 		// ScavTrap& operator=(ScavTrap const& src);
 		void attack(std::string const& target);
 		void guardGate();
+
+	protected:
+		// std::string		 	_name;
+		unsigned int		_health;
+		unsigned int		_energy;
+		unsigned int		_attack_damage;
 };
 
 // std::ostream&	operator<<(std::ostream& os, ScavTrap const& t);

@@ -2,13 +2,13 @@
 
 FragTrap::FragTrap() : ClapTrap()
 {
-	std::cout << GRAY"FragTrap standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "FragTrap standard constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
 {
-	std::cout << GRAY"FragTrap string constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "FragTrap string constructor called" << NO_COLOR << std::endl;
 	this->_health = 100;
 	this->_energy = 100;
 	this->_attack_damage = 30;
@@ -17,13 +17,13 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name)
 
 FragTrap::FragTrap(FragTrap const& src) : ClapTrap(src)
 {
-	std::cout << GRAY"FragTrap copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "FragTrap copy constructor called" << NO_COLOR << std::endl;
 }
 
 FragTrap& FragTrap::operator=(FragTrap const& src)
 {
 
-	std::cout << GRAY"FragTrap assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "FragTrap assignment operator called" << NO_COLOR << std::endl;
 	this->_name = src._name;
 	this->_health = src._health;
 	this->_attack_damage = src._attack_damage;
@@ -33,7 +33,7 @@ FragTrap& FragTrap::operator=(FragTrap const& src)
 
 FragTrap::~FragTrap()
 {
-	std::cout << GRAY"FragTrap destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "FragTrap destructor called" << NO_COLOR << std::endl;
 	return ;
 }
 

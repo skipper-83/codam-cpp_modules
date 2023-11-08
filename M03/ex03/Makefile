@@ -1,5 +1,5 @@
 CC = c++
-CCFLAGS = -Wall -Werror -Wextra -Wshadow
+CCFLAGS = -Wall -Werror -Wextra -Wshadow -std=c++98	
 
 RM = rm -f
 SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp

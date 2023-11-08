@@ -2,25 +2,25 @@
 
 ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(10), _energy(10), _attack_damage(0)
 {
-	std::cout << GRAY"Standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Standard constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::ClapTrap(std::string name) : _name(name), _health(10), _energy(10), _attack_damage(0)
 {
-	std::cout << GRAY"String constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "String constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::ClapTrap(ClapTrap const& src) : _name(src._name), _energy(src._energy), _attack_damage(src._attack_damage), _health(src._health)
 {
-	std::cout << GRAY"Copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Copy constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << GRAY"Destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Destructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
@@ -30,7 +30,7 @@ ClapTrap&	ClapTrap::operator=(ClapTrap const& src)
 	this->_attack_damage = src._attack_damage;
 	this->_energy = src._energy;
 	this->_health = src._health;
-	std::cout << GRAY"Assigment constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Assigment constructor called" << NO_COLOR << std::endl;
 	return (*this);
 }
 
