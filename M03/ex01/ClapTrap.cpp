@@ -1,12 +1,12 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(10), _energy(10), _attack_damage(0)
+ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(100), _energy(10), _attack_damage(0)
 {
 	std::cout << GRAY << "Standard constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
-ClapTrap::ClapTrap(std::string name) : _name(name), _health(10), _energy(10), _attack_damage(0)
+ClapTrap::ClapTrap(std::string name) : _name(name), _health(100), _energy(10), _attack_damage(0)
 {
 	std::cout << GRAY << "String constructor called" << NO_COLOR << std::endl;
 	return ;
@@ -71,7 +71,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 	if (this->_energy && this->_health)
 	{
 		this->_health += amount;
-		std::cout << "ClapTrap " << this->_name << " is healed for " << amount << " and now has " << this->_health << " points of health" << std::endl;
+		std::cout << "ClapTrap " << this->_name << " is healed for " << amount << " and now has " << this->_health << " points of health and " << --(this->_energy) << " energy" << std::endl;
 	}
 	else if (!this->_health)
 		std::cout << "ClapTrap " << this->_name << " is dead and cannot be healed" << std::endl;

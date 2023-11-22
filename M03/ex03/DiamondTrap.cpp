@@ -11,19 +11,19 @@ DiamondTrap::DiamondTrap(std::string name) : ScavTrap(name), FragTrap(name), Cla
 	this->_name = name;
 	this->_health = FragTrap::_health;
 	this->_attack_damage = FragTrap::_attack_damage;
-	this->_energy = ScavTrap::_energy;
-	std::cout << "FragTrap vaules\n" 
-	<< "\tHP: \n" << FragTrap::_health 
-	<< "\tAttack: \n" << FragTrap::_attack_damage 
-	<< "\tEnergy: \n" << FragTrap::_energy 
-	<< "ScavTrap vaules\n" 
-	<< "\tHP: \n" << ScavTrap::_health 
-	<< "\tAttack: \n" << ScavTrap::_attack_damage 
-	<< "\tEnergy: \n" << ScavTrap::_energy 
-	<< "DiamondTrap vaules\n"
-	<< "\tHP: \n" << this->_health 
-	<< "\tAttack: \n" << this->_attack_damage 
-	<< "\tEnergy: \n" << this->_energy << std::endl;
+	// this->_energy = ScavTrap::_energy;	
+	std::cout << "FragTrap values\n" 
+	<< "\tHP: " << FragTrap::_health 
+	<< "\n\tAttack: " << FragTrap::_attack_damage 
+	<< "\n\tEnergy: " << FragTrap::_energy 
+	<< "\nScavTrap values\n" 
+	<< "\tHP: " << ScavTrap::_health 
+	<< "\n\tAttack: " << ScavTrap::_attack_damage 
+	<< "\n\tEnergy: " << ScavTrap::_energy 
+	<< "\nDiamondTrap values\n"
+	<< "\tHP: " << this->_health 
+	<< "\n\tAttack: " << this->_attack_damage 
+	<< "\n\tEnergy: " << this->_energy << std::endl;
 }
 
 DiamondTrap::~DiamondTrap(void)
@@ -48,7 +48,14 @@ void DiamondTrap::whoAmI(void)
 	std::cout << "I am a ClapTrap named " << this->ClapTrap::_name << " my DiamondTrap name is " << this->_name << std::endl;
 }
 
-// void	DiamondTrap::attack(std::string name)
+// std::string DiamondTrap::getName(void) const
 // {
-// 	ScavTrap::attack(name);
+// 	return (this->_name);
+// }
+
+
+// std::ostream&	operator<<(std::ostream& os, DiamondTrap const& t)
+// {
+// 	os << "DiamondTrap " << t.getName() << " has " << t.getHealth() << " hitpoints and " << t.getEnergy() << " energy. His attack gives " << t.getDamage() << " damage.";
+// 	return (os);
 // }

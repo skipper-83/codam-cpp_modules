@@ -14,7 +14,7 @@ int	main(void)
 	jewel.takeDamage(5);
 	// std::cout << test << std::endl;
 	// std::cout << frag << std::endl;
-	std::cout << jewel << std::endl;
+	// std::cout << jewel << std::endl;
 	fake.whoAmI();
 	fake = jewel;
 	fake.whoAmI();

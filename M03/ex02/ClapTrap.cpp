@@ -1,12 +1,12 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(10), _energy(10), _attack_damage(0)
+ClapTrap::ClapTrap(void) : _name("generic claptrap"), _health(100), _energy(10), _attack_damage(0)
 {
 	std::cout << GRAY << "Standard constructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
-ClapTrap::ClapTrap(std::string name) : _name(name), _health(10), _energy(10), _attack_damage(0)
+ClapTrap::ClapTrap(std::string name) : _name(name), _health(100), _energy(10), _attack_damage(0)
 {
 	std::cout << GRAY << "String constructor called" << NO_COLOR << std::endl;
 	return ;

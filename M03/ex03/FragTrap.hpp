@@ -17,7 +17,7 @@ class FragTrap : virtual public ClapTrap
 
 		protected:
 			// std::string		 	_name;
-			unsigned int		_health;
+			// unsigned int		_health;
 			unsigned int		_energy;
 			unsigned int		_attack_damage;
 };

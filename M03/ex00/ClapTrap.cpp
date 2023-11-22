@@ -71,7 +71,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 	if (this->_energy && this->_health)
 	{
 		this->_health += amount;
-		std::cout << "ClapTrap " << this->_name << " is healed for " << amount << " and now has " << this->_health << " points of health" << std::endl;
+		std::cout << "ClapTrap " << this->_name << " is healed for " << amount << " and now has " << this->_health << " points of health and " << --(this->_energy) << " energy" << std::endl;
 	}
 	else if (!this->_health)
 		std::cout << "ClapTrap " << this->_name << " is dead and cannot be healed" << std::endl;
@@ -101,6 +101,6 @@ unsigned int ClapTrap::getDamage(void) const
 
 std::ostream&	operator<<(std::ostream& os, ClapTrap const& t)
 {
-	os << "ClapTrap " << t.getName() << " has " << t.getHealth() << " hitpoints and " << t.getEnergy() << " energy. His attack gives " << t.getDamage() << " damage.";
+	os << "ClapTrap " << t.getName() << " has " << t.getHealth() << " hitpoints and " << t.getEnergy() << " energy. His attack gives " << t.getDamage() << " damage.\n";
 	return (os);
 }

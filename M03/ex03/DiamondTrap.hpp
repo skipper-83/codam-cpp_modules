@@ -16,16 +16,21 @@ class DiamondTrap : public ScavTrap, public FragTrap
 		DiamondTrap& operator=(DiamondTrap const& src);
 
 		void	whoAmI(void);
-		using	ScavTrap::attack; 
+		using	ScavTrap::attack;
+		using	ScavTrap::_energy;
+		// std::string		getName(void) const;
 
-		protected:
-			// std::string		 	_name;
-			unsigned int		_health;
-			unsigned int		_energy;
-			unsigned int		_attack_damage;
+
+	protected:
+		// std::string		 	_name;
+		unsigned int		_health;
+		// unsigned int		_energy;
+		unsigned int		_attack_damage;
 
 	private:
 		std::string _name;
 };
+
+// std::ostream&	operator<<(std::ostream& os, DiamondTrap const& t);
 
 #endif

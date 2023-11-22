@@ -3,7 +3,7 @@
 ScavTrap::ScavTrap() : ClapTrap()
 {
 	std::cout << GRAY << "ScavTrap standard constructor called" << NO_COLOR << std::endl;
-	this->_health = 100;
+	this->_health = ClapTrap::_health;
 	this->_energy = 50;
 	this->_attack_damage = 20;
 	return ;
@@ -12,7 +12,7 @@ ScavTrap::ScavTrap() : ClapTrap()
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
 	std::cout << GRAY << "ScavTrap string constructor called" << NO_COLOR << std::endl;
-	this->_health = 100;
+	this->_health = ClapTrap::_health;
 	this->_energy = 50;
 	this->_attack_damage = 20;
 	return ;
@@ -61,7 +61,7 @@ void	ScavTrap::guardGate(void)
 	else if (!this->_health)
 		std::cout << "ScavTrap " << this->_name << " dead and cannot guard anything" << std::endl;
 	else if (!this->_energy)
-		std::cout << "ScavTrap " << this->_name << " dis too tired for guard duty" << std::endl;
+		std::cout << "ScavTrap " << this->_name << " is too tired for guard duty" << std::endl;
 }
 
 // std::ostream&	operator<<(std::ostream& os, ScavTrap const& t)
