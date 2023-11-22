@@ -2,7 +2,7 @@
 
 Brain::Brain()
 {
-	std::cout << GRAY"Brain standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Brain standard constructor called" << NO_COLOR << std::endl;
 	for (int i = 0; i < 100; i++)
 		this->ideas[i] = "idea " + std::to_string(i);
 	return ;
@@ -10,16 +10,23 @@ Brain::Brain()
 
 Brain::~Brain()
 {
-	std::cout << GRAY"Brain destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Brain destructor called" << NO_COLOR << std::endl;
 	return ;
 }
 
 Brain::Brain(Brain const &src)
 {
-	std::cout << GRAY"Brain copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Brain copy constructor called" << NO_COLOR << std::endl;
+	*this = src;
+	return ;
+}
+
+Brain&	Brain::operator=(Brain const& src)
+{
+	std::cout << GRAY << "Brain assignement operator called" << NO_COLOR << std::endl;
 	for (int i = 0; i < 100; i++)
 		this->ideas[i] = src.ideas[i];
-	return ;
+	return (*this);
 }
 
 void Brain::dump(void)

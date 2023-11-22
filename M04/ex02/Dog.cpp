@@ -2,7 +2,7 @@
 
 Dog::Dog(void)
 {
-	std::cout << GRAY"Dog standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Dog standard constructor called" << NO_COLOR << std::endl;
 	this->type = "Dog";
 	this->brain = new Brain();
 	return ;
@@ -10,22 +10,23 @@ Dog::Dog(void)
 
 Dog::~Dog(void)
 {
-	std::cout << GRAY"Dog destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Dog destructor called" << NO_COLOR << std::endl;
 	delete this->brain;
 	return ;
 }
 
 Dog::Dog(Dog const& src)
 {
-	std::cout << GRAY"Dog copy constructor called"NO_COLOR << std::endl;
-	this->type = src.type;
+	std::cout << GRAY << "Dog copy constructor called" << NO_COLOR << std::endl;
+	*this = src;
 	return ;
 }
 
 Dog& Dog::operator=(Dog const& src)
 {
-	std::cout << GRAY"Dog assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Dog assignment operator called" << NO_COLOR << std::endl;
 	this->type = src.type;
+	this->brain = new Brain(*(src.brain));
 	return (*this);
 }
 

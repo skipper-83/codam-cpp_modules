@@ -2,7 +2,7 @@
 
 Cat::Cat(void)
 {
-	std::cout << GRAY"Cat standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Cat standard constructor called" << NO_COLOR << std::endl;
 	this->type = "Cat";
 	this->brain = new Brain();
 	return ;
@@ -10,22 +10,23 @@ Cat::Cat(void)
 
 Cat::~Cat(void)
 {
-	std::cout << GRAY"Cat destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Cat destructor called" << NO_COLOR << std::endl;
 	delete this->brain;
 	return ;
 }
 
 Cat::Cat(Cat const& src)
 {
-	std::cout << GRAY"Cat copy constructor called"NO_COLOR << std::endl;
-	this->type = src.type;
+	std::cout << GRAY << "Cat copy constructor called" << NO_COLOR << std::endl;
+	*this = src;
 	return ;
 }
 
 Cat& Cat::operator=(Cat const& src)
 {
-	std::cout << GRAY"Cat assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "Cat assignment operator called" << NO_COLOR << std::endl;
 	this->type = src.type;
+	this->brain = new Brain(*(src.brain));
 	return (*this);
 }
 

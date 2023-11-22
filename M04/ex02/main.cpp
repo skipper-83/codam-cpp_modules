@@ -2,20 +2,16 @@
 #include "Cat.hpp"
 #include "Dog.hpp"
 
-void	leaks_f()
-{
-	system ("leaks -q cats_and_dogs_with_brains");
-}
 
 int main(void)
 {
 	AAnimal*	animals[4];
 	AAnimal*	j = new Dog();
 	AAnimal*	i = new Cat();
-
+	// AAnimal*	animal = new AAnimal();
 	// AAnimal*	wrong = new Animal();
 
-	atexit(leaks_f);
+	// atexit(leaks_f);
 	for (int i = 0; i < 4; i ++)
 	{
 		if (i % 2)
@@ -45,6 +41,10 @@ int main(void)
 
 	for (int i=0; i<4; i++)
 		delete animals[i];
+	AAnimal *copy_cat = new Cat(*(Cat *)i);
+	i->setIdea(1, "now we got a new idea on pos 1");
+	std::cout << i->getIdea(1) << "\n" << copy_cat->getIdea(1) << std::endl;
+	delete copy_cat;
 	delete i;
 	delete j;
 }

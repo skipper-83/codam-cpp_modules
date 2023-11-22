@@ -3,10 +3,6 @@
 #include "Dog.hpp"
 #include "WrongCat.hpp"
 
-void	leaks_f()
-{
-	system ("leaks -q cats_and_dogs");
-}
 
 int main(void)
 {
@@ -19,7 +15,6 @@ int main(void)
 	const	WrongAnimal* wrong_meta = new WrongAnimal();
 	const	WrongAnimal* wrong_i = new WrongCat();
 
-	atexit(leaks_f);
 	std::cout << meta->getType() << ": ";
 	meta->makeSound();
 	

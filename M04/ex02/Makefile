@@ -5,7 +5,7 @@ RM = rm -f
 SRCS = main.cpp Cat.cpp Dog.cpp AAnimal.cpp Brain.cpp
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 
-NAME = cats_and_dogs_with_brains
+NAME = absract_animals
 
 all : $(NAME)
 
@@ -14,6 +14,9 @@ $(NAME): $(OBJS)
 
 run : $(NAME)
 	@./$(NAME)
+
+valgrind : $(NAME)
+	@valgrind --leak-check=full ./$(NAME)
 
 re : fclean all
 

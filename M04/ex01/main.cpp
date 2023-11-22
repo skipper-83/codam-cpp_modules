@@ -2,19 +2,14 @@
 #include "Cat.hpp"
 #include "Dog.hpp"
 
-void	leaks_f()
-{
-	system ("leaks -q cats_and_dogs_with_brains");
-}
-
 int main(void)
 {
 	Animal*	animals[4];
-	Animal*	j = new Dog();
-	Animal*	i = new Cat();
+	Animal*	doggie = new Dog();
+	Animal*	cattie = new Cat();
 	Animal	generic = Animal();
-
-	atexit(leaks_f);
+// 
+	// atexit(leaks_f);
 	generic.setIdea(1, "new idea");
 	std::cout << generic.getIdea(1) << std::endl;
 	generic.brainDump();
@@ -47,6 +42,13 @@ int main(void)
 
 	for (int i=0; i<4; i++)
 		delete animals[i];
-	delete i;
-	delete j;
+	std::cout <<"CHECKING DEEP COPY\n\n"<< cattie->getIdea(22) << "\n";
+	Cat copy_cattie = Cat(*(Cat *)cattie);	
+	cattie->setIdea(22, "catched 22");
+	std::cout << copy_cattie.getIdea(22) << "\n" << cattie->getIdea(22) << "\n";
+	Dog copy_dog = Dog(*(Dog *)doggie);
+	doggie->setIdea(1, "Tell me what to do");
+	std::cout << copy_dog.getIdea(1) << "\n" << doggie->getIdea(1) << "\n";
+ 	delete cattie;
+	delete doggie;
 }
