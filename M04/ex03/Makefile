@@ -1,8 +1,8 @@
 CC = c++
-CCFLAGS = -Wall -Werror -Wextra
+CCFLAGS = -Wall -Werror -Wextra -std=c++98
 
 RM = rm -f
-SRCS = main.cpp AMateria.cpp Ice.cpp
+SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp BlankMateria.cpp Character.cpp MateriaSource.cpp
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 
 NAME = materia

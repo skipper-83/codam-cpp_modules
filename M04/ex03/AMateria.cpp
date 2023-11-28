@@ -2,21 +2,21 @@
 
 AMateria::AMateria(void)
 {
-	std::cout << GRAY"AMateria standard constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "AMateria standard constructor called" << NO_COLOR << std::endl;
 	this->_type = "generic Materia";
 	return ;
 }
 
 AMateria::AMateria(std::string const &type)
 {
-	std::cout << GRAY"AMateria string constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "AMateria string constructor called" << NO_COLOR << std::endl;
 	this->_type = type;
 	return ;
 }
 
 AMateria::AMateria(AMateria const &src)
 {
-	std::cout << GRAY"AMateria copy constructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "AMateria copy constructor called" << NO_COLOR << std::endl;
 	if (this != &src)
 		this->_type = src._type;
 	return ;
@@ -24,7 +24,7 @@ AMateria::AMateria(AMateria const &src)
 
 AMateria &AMateria::operator=(AMateria const &src)
 {
-	std::cout << GRAY"AMateria copy assignment operator called"NO_COLOR << std::endl;
+	std::cout << GRAY << "AMateria copy assignment operator called" << NO_COLOR << std::endl;
 	if (this != &src)
 		this->_type = src._type;
 	return (*this);
@@ -32,7 +32,7 @@ AMateria &AMateria::operator=(AMateria const &src)
 
 AMateria::~AMateria(void)
 {
-	std::cout << GRAY"AMateria destructor called"NO_COLOR << std::endl;
+	std::cout << GRAY << "AMateria destructor called" << NO_COLOR << std::endl;
 	return ;
 }
 

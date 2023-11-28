@@ -25,4 +25,6 @@ class AMateria
 
 };
 
+extern AMateria	**items_on_floor;
+
 #endif
