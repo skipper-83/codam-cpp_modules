@@ -3,13 +3,15 @@
 MateriaSource::MateriaSource(void)
 {
 	std::cout << GRAY << "MateriaSource standard constructor called" << NO_COLOR << std::endl;
-	// for (int i = 0; i < 4; i++)
-	// 	this->_knowledge[i] = nullptr;
+	for (int i = 0; i < 4; i++)
+		this->_knowledge[i] = nullptr;
 }
 
 MateriaSource::MateriaSource(const MateriaSource &src)
 {
 	std::cout << GRAY << "MateriaSource copy constructor called" << NO_COLOR << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_knowledge[i] = nullptr;
 	*this = src;
 }
 
@@ -73,13 +75,13 @@ AMateria *MateriaSource::createMateria(const std::string &type)
 	return nullptr;
 }
 
-void MateriaSource::print_knowledge()
-{
-	for (int i = 0; i < 4; i++)
-	{
-		if (this->_knowledge[i])
-			std::cout << i << ": " << this->_knowledge[i]->getType() << std::endl;
-		else
-			std::cout << i << ": nullptr" << std::endl;
-	}
-}
+// void MateriaSource::print_knowledge()
+// {
+// 	for (int i = 0; i < 4; i++)
+// 	{
+// 		if (this->_knowledge[i])
+// 			std::cout << i << ": " << this->_knowledge[i]->getType() << std::endl;
+// 		else
+// 			std::cout << i << ": nullptr" << std::endl;
+// 	}
+// }

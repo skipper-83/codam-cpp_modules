@@ -5,16 +5,22 @@ AMateria **items_on_floor = nullptr;
 Character::Character(void) : _name("generic character")
 {
 	std::cout << GRAY << "Character standard constructor called" << NO_COLOR << std::endl;
-}
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = nullptr;
+ }
 
 Character::Character(std::string name) : _name(name)
 {
 	std::cout << GRAY << "Character string constructor called" << NO_COLOR << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = nullptr;
 }
 
 Character::Character(Character const &src)
 {
 	std::cout << GRAY << "Character copy constructor called" << NO_COLOR << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = nullptr;
 	*this = src;
 }
 
@@ -95,8 +101,9 @@ void Character::unequip(int idx)
 		new_floor[i] = items_on_floor[i];
 	new_floor[size] = this->_inventory[idx];
 	std::cout << this->_name << " put " << this->_inventory[idx]->getType() << " on the floor" << std::endl;
-	if (items_on_floor)
-		delete items_on_floor;
+	// if (items_on_floor)
+	// 	delete items_on_floor;
+	free(items_on_floor);
 	items_on_floor = new_floor;
 	this->_inventory[idx] = nullptr;
 }

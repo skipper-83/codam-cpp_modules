@@ -13,7 +13,7 @@ class MateriaSource : public IMateriaSource
 		MateriaSource&	operator=(const MateriaSource& rhs);
 		void			learnMateria(AMateria* src);
 		AMateria*		createMateria(const std::string& type);
-		void			print_knowledge();
+		// void			print_knowledge();
 
 	private:
 		AMateria*		_knowledge[4];
