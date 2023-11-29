@@ -123,16 +123,18 @@
 		delete src;
 		std::cout << "END SUBJECT TESTS\n\n";
 
+		// delete [] items_on_floor;
 		if (items_on_floor)
 		{
 			std::cout << "DELETING ITEMS ON THE FLOOR" << std::endl;
 			for (int i = 0; items_on_floor[i] != nullptr; i++)
 			{
 				std::cout << i << ": "
-				<< items_on_floor[i]->getType() << std::endl;
-				delete items_on_floor[i];
+				<< ((AMateria *)items_on_floor[i])->getType() << std::endl;
+				delete (AMateria *)items_on_floor[i];
 			}
-			free(items_on_floor);
+			// free(items_on_floor);
+			delete items_on_floor;
 		}
 		std::cout << "\n\nDELETING STACK ALLOCATED CLASSES\n";
 	}

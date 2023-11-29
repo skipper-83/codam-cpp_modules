@@ -1,6 +1,6 @@
 #include "Character.hpp"
 
-AMateria **items_on_floor = nullptr;
+void **items_on_floor = nullptr;
 
 Character::Character(void) : _name("generic character")
 {
@@ -96,14 +96,18 @@ void Character::unequip(int idx)
 		for (int i = 0; items_on_floor[i] != nullptr; i++)
 			size++;
 	}
-	AMateria **new_floor = (AMateria **)calloc((size + 2), sizeof(AMateria *));
+	// void **new_floor = (void **)calloc((size + 2), sizeof(void *));
+	// void **new_floor = new void[size + 1];
+	void **new_floor = (void **)operator new(sizeof(AMateria *) * (size + 2));
 	for (int i = 0; i < size; i++)
 		new_floor[i] = items_on_floor[i];
-	new_floor[size] = this->_inventory[idx];
+	new_floor[size] = (void *)this->_inventory[idx];
+	new_floor[size + 1] = nullptr;
 	std::cout << this->_name << " put " << this->_inventory[idx]->getType() << " on the floor" << std::endl;
+	delete items_on_floor;
 	// if (items_on_floor)
 	// 	delete items_on_floor;
-	free(items_on_floor);
+	// free(items_on_floor);
 	items_on_floor = new_floor;
 	this->_inventory[idx] = nullptr;
 }

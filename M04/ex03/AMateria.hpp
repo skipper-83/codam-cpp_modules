@@ -25,6 +25,6 @@ class AMateria
 
 };
 
-extern AMateria	**items_on_floor;
+extern void	**items_on_floor;
 
 #endif
