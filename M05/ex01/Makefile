@@ -15,6 +15,9 @@ $(NAME): $(OBJS)
 run : $(NAME)
 	@./$(NAME)
 
+valgrind : $(NAME)
+	@valgrind --leak-check=full ./$(NAME)
+
 re : fclean all
 
 clean :

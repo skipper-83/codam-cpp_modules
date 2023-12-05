@@ -1,5 +1,5 @@
 CC = c++
-CCFLAGS = -g -Wall -Werror -Wextra -std=c++98
+CCFLAGS = -g -Wall -Werror -Wextra -std=c++98 
 
 RM = rm -f
 SRCS = main.cpp AMateria.cpp Ice.cpp Cure.cpp Character.cpp MateriaSource.cpp

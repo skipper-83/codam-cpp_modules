@@ -102,7 +102,7 @@ void Character::unequip(int idx)
 	new_floor[size] = this->_inventory[idx];
 	new_floor[size + 1] = nullptr;
 	std::cout << this->_name << " put " << this->_inventory[idx]->getType() << " on the floor" << std::endl;
-	delete items_on_floor;
+	delete [] items_on_floor;
 	items_on_floor = new_floor;
 	this->_inventory[idx] = nullptr;
 }

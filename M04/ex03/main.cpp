@@ -4,14 +4,14 @@
 #include "Character.hpp"
 #include "MateriaSource.hpp"
 
-void	leaks_f()
-{
-	system ("leaks -q materia");
-}
+// void	leaks_f()
+// {
+// 	system ("leaks -q materia");
+// }
 
 int main(void)
 {
-	atexit(leaks_f);
+	// atexit(leaks_f);
 	std::cout << "ICE CONSTRUCTOR TESTS\n\n";
 	std::cout << "Standard constructor\n";
 	AMateria *ice = new Ice();
