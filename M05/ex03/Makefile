@@ -2,7 +2,7 @@ CC = c++
 CCFLAGS = -Wall -Werror -Wextra
 
 RM = rm -f
-SRCS = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
+SRCS = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp Intern.cpp
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 
 NAME = bureaucrat_with_abstract_form

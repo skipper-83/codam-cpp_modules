@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Bureaucrat.hpp"
-#include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 
 
 void leaks_f()
@@ -12,43 +12,26 @@ void leaks_f()
 
 int main(void)
 {
-	ShrubberyCreationForm form("somehere");
-	Bureaucrat	chief("Keanu", 10);
-	Bureaucrat	dweller("Stefano", 149);
+	Intern	legal_slave;
+	AForm	*form1, *form2, *form3, *form4;
+	Bureaucrat	anton("Anton", 5);
 
-	std::cout << form << "\n";
-	try	{	form.execute(chief); 	}
-	catch(const std::exception& e)
-	{	std::cerr << e.what() << '\n'; }
-	chief.signForm(form);
-	try	{	form.execute(dweller); 	}
-	catch(const std::exception& e)
-	{	std::cerr << e.what() << '\n'; }
-	try	{	form.execute(chief); 	}
-	catch(const std::exception& e)
-	{	std::cerr << e.what() << '\n'; }
-	dweller.executeForm(form);
-	chief.executeForm(form);
-
-	ShrubberyCreationForm form2("anywehere");
-	chief.executeForm(form2);
-	dweller.signForm(form2);
-	chief.signForm(form2);
-	chief.executeForm(form2);
-
-	RobotomyRequestform robby("innocent victim");
-	chief.executeForm(robby);
-	chief.signForm(robby);
-	chief.executeForm(robby);
-	// chief.executeForm(robby);
-
-	PresidentialPardonForm pardon_me("The Don");
-	Bureaucrat deity("Higher Form of Being", 1);
-	dweller.signForm(pardon_me);
-	chief.signForm(pardon_me);
-	chief.executeForm(pardon_me);
-	deity.executeForm(pardon_me);
 	
+	atexit(leaks_f);
+	form1 = legal_slave.makeForm("shrubbery creation", "Garden");
+	form2 = legal_slave.makeForm("robotomy request", "Self");
+	form3 = legal_slave.makeForm("presidential pardon", "Barabas");
+	form4 = legal_slave.makeForm("useful paperwork", "Important Matters");
+	anton.signForm(*form1);
+	anton.executeForm(*form1);
+	anton.signForm(*form2);
+	anton.executeForm(*form2);
+	anton.signForm(*form3);
+	anton.executeForm(*form3);
+	delete form1;
+	delete form2;
+	delete form3;
+	delete form4;
 }
 
 
