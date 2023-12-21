@@ -3,14 +3,8 @@
 #include "Form.hpp"
 
 
-void leaks_f()
-{
-	system("leaks -q bureaucrat_with_form");
-}
-
 int main(void)
 {
-	atexit (leaks_f);
 	Form		my_form("28c", 20, 2);
 	Form		copy_form(my_form);
 	Bureaucrat	low_rat("Snarky", 150);

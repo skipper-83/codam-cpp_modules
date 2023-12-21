@@ -1,14 +1,9 @@
 #include <iostream>
 #include "Bureaucrat.hpp"
 
-void leaks_f()
-{
-	system("leaks -q bureaucrat");
-}
 
 int main(void)
 {
-	atexit (leaks_f);
 	Bureaucrat	low_dweller("Gimly", 150);
 	Bureaucrat	top_dog("Aragorn", 1);
 	Bureaucrat	*test;
