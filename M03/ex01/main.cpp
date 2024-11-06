@@ -1,4 +1,3 @@
-// #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
 
 int	main(void)
@@ -6,6 +5,11 @@ int	main(void)
 	ScavTrap airfryer("airfryer");
 	ScavTrap robot(airfryer);
 	ScavTrap copy;
+
+	std::cout << "ScavTrap " << airfryer.getName() << " has " << airfryer.getHealth() << " health points" << std::endl;
+	std::cout << "ScavTrap " << airfryer.getName() << " has " << airfryer.getEnergy() << " energy points" << std::endl;
+	std::cout << "ScavTrap " << airfryer.getName() << " has " << airfryer.getDamage() << " attack points" << std::endl;
+	std::cout << "\n\n";
 
 	robot.takeDamage(20);
 	copy.beRepaired(10);

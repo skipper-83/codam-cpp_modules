@@ -18,13 +18,10 @@ class DiamondTrap : public ScavTrap, public FragTrap
 		void	whoAmI(void);
 		using	ScavTrap::attack;
 		using	ScavTrap::_energy;
-		// std::string		getName(void) const;
 
 
 	protected:
-		// std::string		 	_name;
 		unsigned int		_health;
-		// unsigned int		_energy;
 		unsigned int		_attack_damage;
 
 	private:

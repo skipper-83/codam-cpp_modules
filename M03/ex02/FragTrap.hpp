@@ -3,7 +3,7 @@
 
 # include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {
 	public:
 		FragTrap();
@@ -14,8 +14,9 @@ class FragTrap : public ClapTrap
 		FragTrap& operator=(FragTrap const& src);
 		void attack(std::string const& target);
 		void highFivesGuys(void);
-};
 
-// std::ostream&	operator<<(std::ostream& os, FragTrap const& t);
+	protected:
+		using ClapTrap::_health;
+};
 
 #endif

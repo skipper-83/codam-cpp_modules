@@ -9,7 +9,6 @@ ScavTrap::ScavTrap() : ClapTrap()
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
 	std::cout << GRAY << "ScavTrap string constructor called" << NO_COLOR << std::endl;
-	this->_health = ClapTrap::_health;
 	this->_energy = 50;
 	this->_attack_damage = 20;
 	return ;
@@ -22,7 +21,6 @@ ScavTrap::ScavTrap(ScavTrap const& src) : ClapTrap(src)
 
 ScavTrap& ScavTrap::operator=(ScavTrap const& src)
 {
-
 	std::cout << GRAY << "ScavTrap assignment operator called" << NO_COLOR << std::endl;
 	this->_name = src._name;
 	this->_health = src._health;
