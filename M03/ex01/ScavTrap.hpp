@@ -1,9 +1,9 @@
 #ifndef SCAVTRAP_HPP
 # define SCAVTRAP_HPP
 
-# include "../ex00/ClapTrap.hpp"
+# include "ClapTrap.hpp"
 
-class ScavTrap : virtual public ClapTrap
+class ScavTrap : public ClapTrap
 {
 	public:
 		ScavTrap();
@@ -14,9 +14,6 @@ class ScavTrap : virtual public ClapTrap
 		ScavTrap& operator=(ScavTrap const& src);
 		void attack(std::string const& target);
 		void guardGate();
-
-	public:
-		using ClapTrap::_health;
 };
 
 // std::ostream&	operator<<(std::ostream& os, ScavTrap const& t);

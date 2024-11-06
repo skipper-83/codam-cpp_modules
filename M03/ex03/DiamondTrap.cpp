@@ -11,7 +11,7 @@ DiamondTrap::DiamondTrap(std::string name) : ScavTrap(name), FragTrap(name), Cla
 	this->_name = name;
 	this->_health = FragTrap::_health;
 	this->_attack_damage = FragTrap::_attack_damage;
-	// this->_energy = ScavTrap::_energy;	
+	this->_energy = ScavTrap::_energy;	
 	std::cout << "FragTrap values\n" 
 	<< "\tHP: " << FragTrap::_health 
 	<< "\n\tAttack: " << FragTrap::_attack_damage 

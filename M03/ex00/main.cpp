@@ -8,7 +8,7 @@ int	main(void)
 	ClapTrap	four;
 
 	std::cout << "*** INITIALIZATIONS ***\n" 
-	<< one << two << three << four;
+	<< one << "\n" << two << "\n" << three << "\n" << four<< "\n" ;
 	four = three;
 	std::cout << four << std::endl;	
 

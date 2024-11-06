@@ -14,9 +14,6 @@ class FragTrap : virtual public ClapTrap
 		FragTrap& operator=(FragTrap const& src);
 		void attack(std::string const& target);
 		void highFivesGuys(void);
-
-	protected:
-		using ClapTrap::_health;
 };
 
 #endif
