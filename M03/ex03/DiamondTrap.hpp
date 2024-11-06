@@ -17,12 +17,12 @@ class DiamondTrap : public ScavTrap, public FragTrap
 
 		void	whoAmI(void);
 		using	ScavTrap::attack;
-		using	ScavTrap::_energy;
-		using   FragTrap::_attack_damage;
-		using 	ClapTrap::_health;
 
 	private:
 		std::string _name;
+		using	ScavTrap::_energy;
+		using   FragTrap::_attack_damage;
+		using 	ClapTrap::_health;
 };
 
 // std::ostream&	operator<<(std::ostream& os, DiamondTrap const& t);

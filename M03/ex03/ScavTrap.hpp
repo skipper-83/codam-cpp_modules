@@ -15,9 +15,9 @@ class ScavTrap : virtual public ClapTrap
 		void attack(std::string const& target);
 		void guardGate();
 
-	protected: // the only way to have differentiating values between the children of ClapTrap is to give them their own attributes
-		unsigned int		_energy;
-		unsigned int		_attack_damage;
+	// protected: // the only way to have differentiating values between the children of ClapTrap is to give them their own attributes
+	// 	unsigned int		_energy;
+	// 	unsigned int		_attack_damage;
 
 };
 

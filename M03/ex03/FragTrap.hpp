@@ -16,8 +16,8 @@ class FragTrap : virtual public ClapTrap
 		void highFivesGuys(void);
 
 	protected: // the only way to have differentiating values between the children of ClapTrap is to give them their own attributes
-		unsigned int		_energy; 
-		unsigned int		_attack_damage;
+		// unsigned int		_energy; 
+		// unsigned int		_attack_damage;
 };
 
 #endif

@@ -20,4 +20,7 @@ int	main(void)
 	fake.whoAmI();
 	fake.guardGate();
 	fake.highFivesGuys();
+	// std::cout << "this should be protected" << fake._energy;
+	std::cout << fake.getEnergy();
+	std::cout << fake;
 }
