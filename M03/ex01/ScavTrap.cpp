@@ -11,6 +11,7 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 	std::cout << GRAY << "ScavTrap string constructor called" << NO_COLOR << std::endl;
 	this->_energy = 50;
 	this->_attack_damage = 20;
+	// this->_health = ClapTrap::_health;
 	return ;
 }
 
