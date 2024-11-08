@@ -43,7 +43,7 @@ AForm* Intern::makeForm(std::string const &name, std::string const &target)
 		if (name == supported_forms[i])
 		{
 			ret = (this->*form_constructors[i])(target);
-			std::cout << "Intern creates " << ret->getName() << " through request [" << name << "]\n";
+			std::cout << "Intern creates " << ret->getName() << " because it received [" << name << "] as a request\n";
 			return ret;
 		}
 	}

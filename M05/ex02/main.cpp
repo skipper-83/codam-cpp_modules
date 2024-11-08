@@ -4,12 +4,6 @@
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
 
-
-void leaks_f()
-{
-	system("leaks -q bureaucrat_with_abstract_form");
-}
-
 int main(void)
 {
 	ShrubberyCreationForm form("somehere");

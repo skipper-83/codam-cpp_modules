@@ -5,11 +5,6 @@
 #include "Intern.hpp"
 
 
-void leaks_f()
-{
-	system("leaks -q bureaucrat_with_abstract_form");
-}
-
 int main(void)
 {
 	Intern	legal_slave;
@@ -17,7 +12,7 @@ int main(void)
 	Bureaucrat	anton("Anton", 5);
 
 	
-	atexit(leaks_f);
+	// atexit(leaks_f);
 	form1 = legal_slave.makeForm("shrubbery creation", "Garden");
 	form2 = legal_slave.makeForm("robotomy request", "Self");
 	form3 = legal_slave.makeForm("presidential pardon", "Barabas");

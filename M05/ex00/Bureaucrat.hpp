@@ -31,7 +31,7 @@ class Bureaucrat
 		class GradeTooHighException : public std::exception
 		{
 			public:
-				const char* what() const throw();
+				const char* what() const throw(); // throw() is a specifier that tells the compiler that the function does not throw exceptions
 		};
 		class GradeTooLowException : public std::exception
 		{
