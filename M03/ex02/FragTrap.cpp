@@ -11,6 +11,7 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name)
 	std::cout << GRAY << "FragTrap string constructor called" << NO_COLOR << std::endl;
 	this->_energy = 100;
 	this->_attack_damage = 30;
+	// this->_health = ClapTrap::_health;
 	return ;
 }
 

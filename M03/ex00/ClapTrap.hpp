@@ -29,10 +29,6 @@ class ClapTrap
 		unsigned int		_health;
 		unsigned int		_energy;
 		unsigned int		_attack_damage;
-	
-	private:
-							
-	
 
 };
 
