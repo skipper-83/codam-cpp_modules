@@ -70,6 +70,15 @@ Scalar ScalarConverter::determineType(std::string const &input)
 	throw InvalidInputException();
 }
 
+template <typename T, typename U>
+static void rangeCheck(U value, T &result, std::string &message)
+{
+	if (value > std::numeric_limits<T>::max() || value < std::numeric_limits<T>::min())
+		message = "impossible -- out of range";
+	else
+		result = static_cast<T>(value);
+}
+
 void ScalarConverter::convertChar(std::string const &input, Scalar &scalar)
 {
 	scalar.c = input[1];
@@ -174,14 +183,6 @@ Scalar ScalarConverter::infNanCheck(std::string const &input, Scalar &scalar)
 	return (scalar.charMessage = impossibleMessage, scalar.intMessage = impossibleMessage, scalar);
 }
 
-template <typename T, typename U>
-void ScalarConverter::rangeCheck(U value, T &result, std::string &message)
-{
-	if (value > std::numeric_limits<T>::max() || value < std::numeric_limits<T>::min())
-		message = "impossible -- out of range";
-	else
-		result = static_cast<T>(value);
-}
 
 ConvertFunctionPtr ScalarConverter::_convertFunctions[4] = {
 	&ScalarConverter::convertChar,

@@ -44,8 +44,6 @@ class ScalarConverter
 		static void convertDouble(std::string const &input, Scalar &scalar);
 		static void display(Scalar const &scalar);
 		static Scalar infNanCheck(std::string const &input, Scalar &scalar);
-		template <typename T, typename U>
-		static void rangeCheck(U value, T &result, std::string &message);
 	
 	class InvalidInputException : public std::exception
 	{
