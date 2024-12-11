@@ -28,10 +28,10 @@ int main(void)
 	std::cout << "min(e, f) = " << min(e, f) << std::endl;
 	std::cout << "max(e, f) = " << max(e, f) << std::endl;
 	e -= 0.1f;
-	std::cout << "e address = " << &e << "f address = " << &f << std::endl;
+	std::cout << "e address = " << &e << ", f address = " << &f << std::endl;
 	std::cout << "e = " << e << ", f = " << f << std::endl;
-	std::cout << "min(e, f) = " << min(e, f) << "address = " << &min(e, f) << std::endl;
-	std::cout << "max(e, f) = " << max(e, f) << "address = " << &max(e, f) << std::endl;
+	std::cout << "min(e, f) = " << min(e, f) << " address = " << &min(e, f) << std::endl;
+	std::cout << "max(e, f) = " << max(e, f) << " address = " << &max(e, f) << std::endl;
 
 	return 0;
 }
