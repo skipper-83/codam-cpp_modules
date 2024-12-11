@@ -100,58 +100,30 @@ int main(void)
 	std::cout << "String array copy:\t" << stringArrCopy.printElements() << std::endl;
 	std::cout << "String array assign:\t" << stringArrAssign.printElements() << std::endl;
 	std::cout << std::endl << std::endl;
+
+	Array<int> intArrEmpty;
+	Array<int> intArraySizeOne(1);
+	std::cout << "Empty int array: " << intArrEmpty.printElements() << std::endl;
+	try{
+		std::cout << "Trying to access element at index 0: " << intArrEmpty[0] << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	std::cout << "Int array with size 1: " << intArraySizeOne.printElements() << std::endl;
+	try{
+		std::cout << "Trying to access element at index 0: " << intArraySizeOne[0] << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	try{
+		std::cout << "Trying to access element at index 1: " << intArraySizeOne[1] << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
-
-// #include <iostream>
-// #include "Array.hpp"
-
-// #define MAX_VAL 750
-// int main(int, char**)
-// {
-//     Array<int> numbers(MAX_VAL);
-//     int* mirror = new int[MAX_VAL];
-//     srand(time(nullptr));
-//     for (int i = 0; i < MAX_VAL; i++)
-//     {
-//         const int value = rand();
-//         numbers[i] = value;
-//         mirror[i] = value;
-//     }
-//     //SCOPE
-//     {
-//         Array<int> tmp = numbers;
-//         Array<int> test(tmp);
-//     }
-
-//     for (int i = 0; i < MAX_VAL; i++)
-//     {
-//         if (mirror[i] != numbers[i])
-//         {
-//             std::cerr << "didn't save the same value!!" << std::endl;
-//             return 1;
-//         }
-//     }
-//     try
-//     {
-//         numbers[-2] = 0;
-//     }
-//     catch(const std::exception& e)
-//     {
-//         std::cerr << e.what() << '\n';
-//     }
-//     try
-//     {
-//         numbers[MAX_VAL] = 0;
-//     }
-//     catch(const std::exception& e)
-//     {
-//         std::cerr << e.what() << '\n';
-//     }
-
-//     for (int i = 0; i < MAX_VAL; i++)
-//     {
-//         numbers[i] = rand();
-//     }
-//     delete [] mirror;//
-//     return 0;
-// }

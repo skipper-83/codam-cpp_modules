@@ -26,7 +26,7 @@ valgrind : $(NAME)
 re : fclean all
 
 clean :
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(INTRA_OBJS)
 
 fclean : clean
 	$(RM) $(NAME)

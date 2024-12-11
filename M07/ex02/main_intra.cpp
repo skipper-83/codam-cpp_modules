@@ -15,15 +15,12 @@ int main(int, char**)
     }
     //SCOPE
     {
-		// std::cout << "2" << std::endl;
         Array<int> tmp = numbers;
         Array<int> test(tmp);
     }
 
-	// std::cout << "3" << std::endl;
     for (int i = 0; i < MAX_VAL; i++)
     {
-		// std::cout << "loop i" << i << std::endl;
         if (mirror[i] != numbers[i])
         {
             std::cerr << "didn't save the same value!!" << std::endl;

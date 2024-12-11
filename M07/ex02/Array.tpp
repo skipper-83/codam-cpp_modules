@@ -46,11 +46,10 @@ size_t Array<T>::size(void) const
 }
 
 template <typename T>
-T& Array<T>::operator[](size_t idx)
+T &Array<T>::operator[](size_t idx)
 {
-	if (idx > _size - 1 || idx < 0)
+	if (idx >= _size)
 	{
-		// std::cout << "idx: " << idx << " _size: " << _size << std::endl;
 		throw std::out_of_range("Index out of range");
 	}
 	return _elements[idx];
@@ -59,13 +58,14 @@ T& Array<T>::operator[](size_t idx)
 template <typename T>
 std::string Array<T>::printElements(void) const
 {
-    std::ostringstream oss;
-    oss << "[";
-    for (size_t i = 0; i < _size; ++i) {
-        oss << _elements[i];
-        if (i < _size - 1)
-            oss << ", ";
-    }
-    oss << "]";
-    return oss.str();
+	std::ostringstream oss;
+	oss << "[";
+	for (size_t i = 0; i < _size; ++i)
+	{
+		oss << _elements[i];
+		if (i < _size - 1)
+			oss << ", ";
+	}
+	oss << "]";
+	return oss.str();
 }
