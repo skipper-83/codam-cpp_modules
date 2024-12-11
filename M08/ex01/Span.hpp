@@ -5,10 +5,10 @@
 
 class Span{
 	public:
-		Span() : _maxNum(255) {};
-		Span(size_t const N) : _maxNum(N) {};
-		Span(Span const& src) { *this = src; };
-		~Span() {};
+		Span();
+		Span(size_t const N);
+		Span(Span const& src);
+		~Span();
 
 		Span& operator=(Span const& rhs);
 

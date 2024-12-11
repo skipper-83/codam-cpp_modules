@@ -2,7 +2,12 @@
 #include <algorithm>
 #include <vector>
 
-Span &Span::operator=(Span const& rhs)
+Span::Span() : _maxNum(255) {};
+Span::Span(size_t const N) : _maxNum(N) {};
+Span::Span(Span const &src) { *this = src; };
+Span::~Span() {};
+
+Span &Span::operator=(Span const &rhs)
 {
 	if (this == &rhs)
 		return *this;

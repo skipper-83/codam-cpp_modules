@@ -4,12 +4,6 @@
 #include <vector>
 
 
-void leaks(void) {
-	std::cout << "*********************************" << std::endl;
-	system("leaks span -q");
-	std::cout << "*********************************" << std::endl;
-}
-
 std::vector<int> createRandomVector(unsigned int size) {
   std::srand(static_cast<unsigned int>((std::chrono::steady_clock::now().time_since_epoch().count())));
   std::vector<int> randomVector;
@@ -34,8 +28,6 @@ void  printVector(std::vector<int> intVector) {
 #define SPAN_SIZE 10000
 int main()
 {
-  atexit(leaks);
-
   std::cout << "Creating vector with random ints, size: " <<  VECTOR_LENGHT << std::endl;
   std::vector<int> intVector = createRandomVector(VECTOR_LENGHT);
   printVector(intVector);
