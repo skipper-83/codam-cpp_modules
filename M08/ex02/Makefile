@@ -12,6 +12,7 @@ all : $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CCFLAGS) -o $(NAME) $(OBJS)
 
+
 run : $(NAME)
 	@./$(NAME)
 
