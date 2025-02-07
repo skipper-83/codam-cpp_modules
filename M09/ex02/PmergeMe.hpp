@@ -5,41 +5,42 @@
 #include <string>
 #include <iostream>
 
-typedef int ValueType;
-
 template <typename C>
 class PmergeMe
 {
-private:
-	PmergeMe();
+	typedef typename C::iterator Citerator;
+	typedef typename C::value_type ValueType;
 
-	C _container;
-	time_t _startTime;
-	time_t _endTime;
+	private:
+		PmergeMe();
 
-	// sort functions
-	size_t _jacobsthal(size_t n);
-	// void _sort()
+		C _container;
+		time_t _startTime;
+		time_t _endTime;
 
-	// time functions
-	void _setStartTime();
-	void _setEndTime();
-	time_t _getElapsedTime();
+		// sort functions
+		size_t _jacobsthal(size_t n);
+		// void _sort()
 
-	// parsing
-	bool _isPositiveInteger(ValueType &number, const std::string &s);
+		// time functions
+		void _setStartTime();
+		void _setEndTime();
+		time_t _getElapsedTime();
 
-	// printing
-	void _printPairs(int depth);
-	void _printMerge(typename C::iterator start, typename C::iterator end, int pairSize);
+		// parsing
+		bool _isPositiveInteger(ValueType &number, const std::string &s);
 
-public:
-	PmergeMe(int argc, char **argv);
-	void sort();
+		// printing
+		void _printPairs(int depth);
+		void _printMerge(Citerator start, Citerator end, int pairSize);
 
-	// iterators
-	typename C::iterator begin();
-	typename C::iterator end();
+	public:
+		PmergeMe(int argc, char **argv);
+		void sort();
+
+		// iterators
+		typename C::iterator begin();
+		typename C::iterator end();
 };
 
 // SORT FUNCTIONS
@@ -55,13 +56,13 @@ void PmergeMe<C>::sort()
 	if (pairCount < 2)							  // if there is only one pair, we cannot merge sort it
 		return;
 	bool isOdd = pairCount % 2; // if the number of pairs is odd, we will have a leftover
-	typename C::iterator start = _container.begin();
-	typename C::iterator end = start + (pairSize * pairCount) - (isOdd * pairSize); // outer bound is amount of pairs * pair size minus the leftover
+	Citerator start = _container.begin();
+	Citerator end = start + (pairSize * pairCount) - (isOdd * pairSize); // outer bound is amount of pairs * pair size minus the leftover
 
 	_printMerge(start, end, pairSize);
 
 	// merge pairs and swap if necessary
-	for (typename C::iterator it = start; it != end; it += pairSize * 2) // loop through pairs, iterator increases with pairsize * 2 so we skip the pairs we already merged
+	for (Citerator it = start; it != end; it += pairSize * 2) // loop through pairs, iterator increases with pairsize * 2 so we skip the pairs we already merged
 	{
 		if (*(it + pairSize - 1) > *(it + pairSize * 2 - 1)) // if the last element of the first pair is greater than the last element of the second pair, we must swap the pairs
 		{
@@ -83,12 +84,12 @@ void PmergeMe<C>::sort()
 // PRINT FUNCTIONS
 
 template <typename C>
-void PmergeMe<C>::_printMerge(typename C::iterator start, typename C::iterator end, int pairSize)
+void PmergeMe<C>::_printMerge(Citerator start, Citerator end, int pairSize)
 {
 	int halfPair = 0;
 	int fullPair = 0;
 	std::cout << "Pairs of " << pairSize << ": ";
-	for (typename C::iterator it = start; it != end; it++)
+	for (Citerator it = start; it != end; it++)
 	{
 		if (fullPair == 0)
 		{
@@ -122,7 +123,7 @@ void PmergeMe<C>::_printMerge(typename C::iterator start, typename C::iterator e
 	}
 	if (end != _container.end())
 	{
-		for (typename C::iterator it = end; it != _container.end(); it++)
+		for (Citerator it = end; it != _container.end(); it++)
 		{
 			std::cout << *it << " ";
 		}

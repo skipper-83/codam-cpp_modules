@@ -5,7 +5,7 @@ int main(int argc, char **argv)
 {
 	try
 	{
-		PmergeMe<std::vector<ValueType> > p(argc, argv);
+		PmergeMe<std::vector<int> > p(argc, argv);
 		std::cout << p;
 		p.sort();
 	}
