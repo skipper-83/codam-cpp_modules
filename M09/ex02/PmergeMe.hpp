@@ -58,6 +58,7 @@ public:
 
 	// sort functions
 	void sort(bool verbose = false);
+	bool isSorted();
 };
 
 // SORT FUNCTIONS
@@ -124,7 +125,25 @@ void PmergeMe<C>::sort(bool verbose)
 		_printContainer(leftover);
 		std::cout << std::endl;
 	}
-	_insert(main, pend, odd, leftover, pairElementSize); // insert the pend container into the main container
+	if (!pend.empty() || isOdd || !leftover.empty()) // if there is anything left to insert
+		_insert(main, pend, odd, leftover, pairElementSize); // insert the pend container into the main container
+	if (pairElementSize == 1)
+	{ // on the last iteration, set the end time
+		// _setEndTime();
+		std::cout << "Comparisons: " << _comparisons << std::endl;
+		std::cout << "Sorted: " << (isSorted() ? "Yes!" : "Nooooo") << std::endl;
+	}
+}
+
+template <typename C>
+bool PmergeMe<C>::isSorted()
+{
+	for (Citerator it = _container.begin(); it != _container.end() - 1; it++)
+	{
+		if (*it > *(it + 1))
+			return false;
+	}
+	return true;
 }
 
 // SORT HELPER FUNCTIONS
@@ -141,8 +160,6 @@ void PmergeMe<C>::_insertSingleRange(C &main, C &pend, int pairElementSize)
 
 	pendRangeIdentifier = pend.begin() + pairElementSize - 1;
 	insertStart = _upperBound(main.begin(), main.end(), *pendRangeIdentifier, pairElementSize);
-	if (_verbose)
-		std::cout << "Upper bound: " << *insertStart << std::endl;
 	main.insert(insertStart, pend.begin(), pend.end());
 
 	Citerator insertedRangePosition = std::find(main.begin(), main.end(), *pend.begin());
@@ -161,7 +178,7 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 		_printPairs("Pend\n\t", pend.begin(), pend.end(), pairElementSize, pend, true);
 	}
 
-	Citerator boundEnd, insertStart, pendRangeStart, pendRangeEnd, pendRangeIdentifier;
+	Citerator boundEnd, insertStart, pendRangeStart, pendRangeEnd, pendRangeIdentifier ,insertedRangePosition;
 	if (pend.size() == pairElementSize) // if the pend container only has one element, we don't use Jacobsthal optimization
 	{
 		if (_verbose)
@@ -176,7 +193,7 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 		size_t totalInsertions = 0;
 		size_t insertionIndex;
 		int offset = 0;
-		// boundEnd = main.begin() + ((currentJacobsthal + totalInsertions) * pairElementSize); // set the upper bound to the Jacobsthal number + the total insertions * pair size
+
 		while (!pend.empty())
 		{
 			currentJacobsthal = _jacobsthal(jacobsthalIndex);						 // get the current Jacobsthal number
@@ -191,11 +208,12 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 				pendRangeEnd = pend.begin() + insertionIndex;					  // the end bound of the range to insert (extra vars for readability)
 
 				if (_verbose)
-					std::cout << "Inserting at index " << insertionIndex / pairElementSize << " for Jacobsthal number: " << currentJacobsthal << std::endl;
-				// if (((currentJacobsthal + totalInsertions) * pairElementSize) < main.size())
-					boundEnd = main.begin() + ((currentJacobsthal + totalInsertions - offset) * pairElementSize ); // set the upper bound to the Jacobsthal number + the total insertions * pair size
-				// else
-				// 	boundEnd = main.end();
+					std::cout << std::endl << "Inserting at index " << insertionIndex / pairElementSize << " for Jacobsthal number: " << currentJacobsthal << std::endl;
+				
+				// set the upper bound of the search area to the Jacobsthal number + the total insertions * pair size
+				boundEnd = main.begin() + ((currentJacobsthal + totalInsertions - offset) * pairElementSize ); // set the upper bound to the Jacobsthal number + the total insertions * pair size
+				if (boundEnd > main.end())
+					boundEnd = main.end(); // if the bound is greater than the end of the main container, set it to the end of the main container
 
 				if (_verbose)
 				{
@@ -204,7 +222,7 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 				}
 
 				insertStart = _upperBound(main.begin(), boundEnd, *pendRangeIdentifier, pairElementSize);
-				Citerator insertedRangePosition = main.insert(insertStart, pendRangeStart, pendRangeEnd);
+				insertedRangePosition = main.insert(insertStart, pendRangeStart, pendRangeEnd);
 				
 				offset += insertedRangePosition - main.begin() == (currentJacobsthal + totalInsertions) * pairElementSize; // if we inserted at the end of the Jacobsthal number, we can decrease the bound by one pair to limit the search space				
 				if (_verbose)
@@ -223,17 +241,18 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 	}
 	if (!odd.empty()) // if there is an odd element, insert it into the main container
 	{
-		if (_verbose)
-			_printPairs(std::string("Inserting odd into main:\n\t"), main.begin(), main.end(), pairElementSize, main, true);
+		if(_verbose)
+			std::cout << std::endl << "Inserting odd into main" << std::endl;
 		_insertSingleRange(main, odd, pairElementSize);
 	}
 	if (!leftover.empty()) // if there is a leftover, insert it into the main container
 	{
 		main.insert(main.end(), leftover.begin(), leftover.end()); // insert the leftover into the main container
 		if (_verbose)
-			_printPairs("Inserting leftover into main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, main.begin() + (main.size() - (main.size() % pairElementSize)), main.end());
+			_printPairs("\nInserting leftover into main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, main.begin() + (main.size() - (main.size() % pairElementSize)), main.end());
 	}
-	std::cout << std::endl;
+	if (_verbose)
+		std::cout << std::endl;
 	_container = main; // set the main container as the new container
 }
 
@@ -265,7 +284,6 @@ typename PmergeMe<C>::Citerator PmergeMe<C>::_upperBound(Citerator start, Citera
 
 		// Compare the identifier with the value
 		_comparisons++;
-		// std::cout << "Comparing " << value << " with " << identifierOfCheckedElement << std::endl;
 		if (value < identifierOfCheckedElement)
 		{
 			result = mid; // Move result to mid
