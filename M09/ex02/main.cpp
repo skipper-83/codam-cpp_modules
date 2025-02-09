@@ -1,5 +1,6 @@
 #include "PmergeMe.hpp"
 #include <vector>
+#include <deque>
 
 int main(int argc, char **argv)
 {
@@ -20,9 +21,11 @@ int main(int argc, char **argv)
 	}
 	try
 	{
-		PmergeMe<std::vector<int> > p(argc - verbose, argv); // create a PmergeMe object, passing the number of arguments and the arguments
-		std::cout << p; 
-		p.sort(verbose);
+		PmergeMe<std::vector<int> > p_vec(argc - verbose, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		PmergeMe<std::deque<int> > p_deq(argc - verbose, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		// std::cout << p; 
+		p_vec.sort(verbose);
+		// p_deq.sort(verbose);
 	}
 	catch (const char *e)
 	{
