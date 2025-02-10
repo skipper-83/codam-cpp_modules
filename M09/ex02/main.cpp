@@ -1,7 +1,11 @@
 #include "PmergeMe.hpp"
 #include <vector>
 #include <deque>
-#include <list>
+#include <array>
+
+#ifdef ALL_CONTAINERS
+	#include <list>
+#endif
 
 bool setVerbose(int *argc, char ***argv)
 {
@@ -21,25 +25,28 @@ bool setVerbose(int *argc, char ***argv)
 
 int main(int argc, char **argv)
 {
-
 	bool verbose = setVerbose(&argc, &argv); // verbose flag
 
 	try
 	{
-		PmergeMe<std::vector<int> > p_vec(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
-		PmergeMe<std::deque<int> > p_deq(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		PmergeMe<std::vector<int> > vectorContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		PmergeMe<std::deque<int> > deQueContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
 
-		PmergeMe<std::vector<int> > p_copy = p_vec;
-		PmergeMe<std::deque<int> > p_copy2 = p_deq;
-		p_vec.sort(verbose);
-		p_copy.qsort();
+		
+		vectorContainer.sort(verbose);
+		deQueContainer.sort(verbose);
 
-		p_deq.sort(verbose);
-		p_copy2.qsort();
-		// std::cout << p_copy2;
+		#ifdef QSORT
+			PmergeMe<std::vector<int> > vectorContainerCopy = vectorContainer;
+			PmergeMe<std::deque<int> > deQueContainerCopy = deQueContainer;
+			vectorContainerCopy.qsort();
+			deQueContainerCopy.qsort();
+		#endif
 
-		PmergeMe<std::list<int> > p_list(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
-		p_list.sort(verbose);
+		#ifdef ALL_CONTAINERS
+			PmergeMe<std::list<int> > listContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+			listContainer.sort(verbose);
+		#endif
 
 	}
 	catch (const char *e)

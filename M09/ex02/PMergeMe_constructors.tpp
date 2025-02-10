@@ -31,4 +31,5 @@ PmergeMe<C> &PmergeMe<C>::operator=(const PmergeMe &rhs)
 }
 
 template <typename C>
-PmergeMe<C>::~PmergeMe(){}
+PmergeMe<C>::~PmergeMe()
+{}

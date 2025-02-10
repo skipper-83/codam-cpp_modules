@@ -1,7 +1,7 @@
 #include "PmergeMe.hpp"
 
 template <typename C>
-typename PmergeMe<C>::Citerator PmergeMe<C>::_upperBound(Citerator start, Citerator end, ValueType value, int pairElementSize)
+typename PmergeMe<C>::Citerator PmergeMe<C>::_upperBound(Citerator start, Citerator end, ValueType value, size_t pairElementSize)
 {
 	Citerator result = end;
 

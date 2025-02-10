@@ -40,7 +40,7 @@ void PmergeMe<C>::_printPairs(std::string msg, Citerator start, Citerator end, i
 		}
 		else
 			std::cout << " ";
-		if (printRed && it == redEnd || printBlue && it == blueEnd)
+		if ((printRed && it == redEnd) || (printBlue && it == blueEnd))
 			std::cout << RESET;
 	}
 	if (end != container.end())

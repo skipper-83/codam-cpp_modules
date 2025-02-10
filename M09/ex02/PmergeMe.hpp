@@ -26,15 +26,15 @@ private:
 
 	// sort helper functions
 	size_t _jacobsthal(size_t n);
-	Citerator _upperBound(Citerator start, Citerator end, ValueType value, int pairElementSize);
+	Citerator _upperBound(Citerator start, Citerator end, ValueType value, size_t pairElementSize);
 
 	// QuickSort helper functions
 	Citerator _partition(Citerator start, Citerator end);
 	void qsort(Citerator start, Citerator end);
 
 	// insertion functions
-	void _insert(C &main, C &pend, C &odd, C &leftover, int pairElementSize);
-	void _insertSingleRange(C &main, C &pend, int pairElementSize);
+	void _insert(C &main, C &pend, C &odd, C &leftover, size_t pairElementSize);
+	void _insertSingleRange(C &main, C &pend, size_t pairElementSize);
 
 	// time functions
 	void _setStartTime();

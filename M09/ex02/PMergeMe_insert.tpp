@@ -1,7 +1,7 @@
 #include "PmergeMe.hpp"
 
 template <typename C>
-void PmergeMe<C>::_insertSingleRange(C &main, C &pend, int pairElementSize)
+void PmergeMe<C>::_insertSingleRange(C &main, C &pend, size_t pairElementSize)
 {
 	Citerator insertStart, pendRangeIdentifier;
 
@@ -16,7 +16,7 @@ void PmergeMe<C>::_insertSingleRange(C &main, C &pend, int pairElementSize)
 }
 
 template <typename C>
-void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElementSize)
+void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, size_t pairElementSize)
 {
 	if (_verbose)
 	{
