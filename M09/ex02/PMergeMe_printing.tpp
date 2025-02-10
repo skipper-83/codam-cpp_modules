@@ -11,7 +11,7 @@ void PmergeMe<C>::_printPairs(std::string msg, Citerator start, Citerator end, i
 	}
 	int halfPair = 0;
 	int fullPair = 0;
-	for (Citerator it = start; it < end; it++)
+	for (Citerator it = start; it != end; std::advance(it, 1))
 	{
 		if (fullPair == 0 && !onlyElements)
 			std::cout << "[";

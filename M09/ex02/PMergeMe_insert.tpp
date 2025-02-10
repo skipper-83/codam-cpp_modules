@@ -5,14 +5,14 @@ void PmergeMe<C>::_insertSingleRange(C &main, C &pend, int pairElementSize)
 {
 	Citerator insertStart, pendRangeIdentifier;
 
-	pendRangeIdentifier = pend.begin() + pairElementSize - 1;
+	pendRangeIdentifier = std::next(pend.begin(), pairElementSize - 1);
 	insertStart = _upperBound(main.begin(), main.end(), *pendRangeIdentifier, pairElementSize);
 	main.insert(insertStart, pend.begin(), pend.end());
 
 	Citerator insertedRangePosition = std::find(main.begin(), main.end(), *pend.begin());
 	
 	if (_verbose)
-		_printPairs("New main:\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, insertedRangePosition + pairElementSize - 1);
+		_printPairs("New main:\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, std::next(insertedRangePosition, pairElementSize - 1));
 }
 
 template <typename C>
@@ -38,7 +38,7 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 		size_t prevJacobsthal = 1;	// the previous Jacobsthal number inits to 1
 		size_t currentJacobsthal = 3;	//
 		size_t totalInsertions = 0;
-		size_t insertionIndex;
+		size_t insertionIndex, offset;
 
 		while (!pend.empty())
 		{
@@ -48,22 +48,22 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 				insertionIndex = pend.size();
 			while (insertionIndex > 0)
 			{
-				boundEnd = main.begin();										  // reset the iterator
-				pendRangeStart = pend.begin() + insertionIndex - pairElementSize; // the start of the range to insert
-				pendRangeIdentifier = pend.begin() + insertionIndex - 1;		  // the identifier of the range to insert
-				pendRangeEnd = pend.begin() + insertionIndex;					  // the end bound of the range to insert (extra vars for readability)
+				pendRangeStart = std::next(pend.begin(), insertionIndex - pairElementSize); // the start of the range to insert
+				pendRangeIdentifier = std::next(pend.begin(), insertionIndex - 1);		  // the identifier of the range to insert
+				pendRangeEnd = std::next(pend.begin(), insertionIndex);					  // the end bound of the range to insert (extra vars for readability)
+
 
 				if (_verbose)
 					std::cout << std::endl << "Inserting at index " << insertionIndex / pairElementSize << " for Jacobsthal number: " << currentJacobsthal << std::endl;
 				
-				// set the upper bound of the search area to the Jacobsthal number + the total insertions * pair size
-				boundEnd = main.begin() + ((currentJacobsthal + totalInsertions) * pairElementSize ); // set the upper bound to the Jacobsthal number + the total insertions * pair size
-				if (boundEnd > main.end())
-					boundEnd = main.end(); // if the bound is greater than the end of the main container, set it to the end of the main container
+				offset = (currentJacobsthal + totalInsertions) * pairElementSize;
+				boundEnd = main.end();
+				if (offset < main.size())
+					boundEnd = std::next(main.begin(), offset);
 
 				if (_verbose)
 				{
-					_printPairs("Main:\n\t", main.begin(), main.end(), pairElementSize, main, true, true, boundEnd, boundEnd + pairElementSize - 1, false, Citerator(), Citerator());
+					_printPairs("Main:\n\t", main.begin(), main.end(), pairElementSize, main, true, true, boundEnd, std::next(boundEnd, pairElementSize - 1), false, Citerator(), Citerator());
 					_printPairs("Pend\n\t", pend.begin(), pend.end(), pairElementSize, pend, true, false, Citerator(), Citerator(), true, pendRangeStart, pendRangeIdentifier);
 				}
 
@@ -71,12 +71,11 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 				insertedRangePosition = main.insert(insertStart, pendRangeStart, pendRangeEnd);
 				
 				if (_verbose)
-					_printPairs("New main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, insertedRangePosition + pairElementSize - 1);
+					_printPairs("New main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, std::next(insertedRangePosition, pairElementSize - 1));
 
 				pend.erase(pendRangeStart, pendRangeEnd); // erase the inserted range from the pend container
 
 				insertionIndex -= pairElementSize; // decrease the insertion index by the pair size
-				boundEnd = main.begin() + ((currentJacobsthal + totalInsertions) * pairElementSize); // set the upper bound to the Jacobsthal number + the total insertions * pair size
 			}
 			totalInsertions += currentJacobsthal - prevJacobsthal;
 			++jacobsthalIndex;
@@ -86,14 +85,15 @@ void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElement
 	if (!odd.empty()) // if there is an odd element, insert it into the main container
 	{
 		if(_verbose)
-			std::cout << std::endl << "Inserting odd into main" << std::endl;
+			_printPairs("\nInserting odd into main\n\t", odd.begin(), odd.end(), pairElementSize, odd, true);
+
 		_insertSingleRange(main, odd, pairElementSize);
 	}
 	if (!leftover.empty()) // if there is a leftover, insert it into the main container
 	{
 		main.insert(main.end(), leftover.begin(), leftover.end()); // insert the leftover into the main container
 		if (_verbose)
-			_printPairs("\nInserting leftover into main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, main.begin() + (main.size() - (main.size() % pairElementSize)), main.end());
+			_printPairs("\nInserting leftover into main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, std::next(main.begin(), (main.size() - (main.size() % pairElementSize))), main.end());
 	}
 	if (_verbose)
 		std::cout << std::endl;

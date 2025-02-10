@@ -20,14 +20,14 @@ private:
 	PmergeMe();
 
 	C _container;
-	std::chrono::time_point<std::chrono::steady_clock>  _startTime;
-	std::chrono::time_point<std::chrono::steady_clock>  _endTime;
+	std::chrono::time_point<std::chrono::steady_clock> _startTime;
+	std::chrono::time_point<std::chrono::steady_clock> _endTime;
 	size_t _comparisons;
 
 	// sort helper functions
 	size_t _jacobsthal(size_t n);
 	Citerator _upperBound(Citerator start, Citerator end, ValueType value, int pairElementSize);
-	
+
 	// QuickSort helper functions
 	Citerator _partition(Citerator start, Citerator end);
 	void qsort(Citerator start, Citerator end);
@@ -76,21 +76,20 @@ public:
 #include "PMergeMe_util.tpp"
 #include "PMergeMe_quicksort.tpp"
 
-
 template <typename C>
 void PmergeMe<C>::sort(bool verbose)
 {
 	static int pairElementSize = 1;
 	if (pairElementSize == 1) // on the first iteration, set the start time
-	  _setStartTime();
-	
+		_setStartTime();
+
 	int pairElementCount = _container.size() / pairElementSize; // number of pairs elements
 	if (pairElementCount < 2)									// if there is less than two pair elements, we cannot make a pair and are done
 		return;
 
 	bool isOdd = pairElementCount % 2; // if the number of pair elements is odd, we will have a leftover
 	Citerator start = _container.begin();
-	Citerator end = start + (pairElementSize * pairElementCount) - (isOdd * pairElementSize); // outer bound is amount of pairs * pair size minus the leftover (if any)
+	Citerator end = std::next(start, (pairElementSize * pairElementCount) - (isOdd * pairElementSize)); // outer bound is amount of pairs * pair size minus the leftover (if any)
 
 	_verbose = verbose; // set verbose flag to the value passed to the function
 
@@ -98,15 +97,16 @@ void PmergeMe<C>::sort(bool verbose)
 		_printPairs(std::string(BLUE "Pairs of " RESET + std::to_string(pairElementSize) + "\n\t"), start, end, pairElementSize, _container);
 
 	// PAIR SWAP PART
-for (Citerator it = start; it + pairElementSize * 2 <= end; it += pairElementSize * 2)  
-{
-    Citerator firstPairLast = it + (pairElementSize - 1);  // Last element of first pair
-    Citerator secondPairLast = it + (pairElementSize * 2 - 1);  // Last element of second pair
+	for (Citerator it = start; it != end; std::advance(it, pairElementSize * 2))
+	{
+		Citerator firstPairLast = std::next(it, (pairElementSize - 1));	   // Last element of first pair
+		Citerator secondPairLast = std::next(it, (pairElementSize * 2 - 1)); // Last element of second pair
 
-    _comparisons++;
-    if (*firstPairLast > *secondPairLast)  // Compare last elements of the pairs
-        std::swap_ranges(it, it + pairElementSize, it + pairElementSize);  // Swap entire pair
-}
+		_comparisons++;
+		if (*firstPairLast > *secondPairLast)								  // Compare last elements of the pairs
+			std::swap_ranges(it, std::next(it, pairElementSize), std::next(it, pairElementSize)); // Swap entire pair
+																			  // Move the iterator forward by 'pairElementSize * 2' steps using std::advance
+	}
 	if (_verbose)
 	{
 		_printPairs(std::string(RED "Swapped pairs of " RESET + std::to_string(pairElementSize) + "\n\t"), start, end, pairElementSize, _container);
@@ -121,16 +121,16 @@ for (Citerator it = start; it + pairElementSize * 2 <= end; it += pairElementSiz
 	// PREPARE FOR INSERTION
 	C main, pend, odd, leftover; // containers for main, pend, odd and leftover
 
-	main.insert(main.end(), start, start + pairElementSize * 2);					  // insert the first two pair elements (b1, a1) into the main container
-	for (Citerator it = start + pairElementSize * 2; it < end; it += pairElementSize) // loop through the rest of the pairs
+	main.insert(main.end(), start, std::next(start, pairElementSize * 2));									 // insert the first two pair elements (b1, a1) into the main container
+	for (Citerator it = std::next(start, pairElementSize * 2); it != end; std::advance(it, pairElementSize)) // loop through the rest of the pairs
 	{
-		pend.insert(pend.end(), it, it + pairElementSize); // insert the pair into the pend container
-		it += pairElementSize;							   // skip the pair we just inserted
-		main.insert(main.end(), it, it + pairElementSize); // insert the pair into the main container
+		pend.insert(pend.end(), it, std::next(it, pairElementSize)); // insert the pair into the pend container
+		std::advance(it, pairElementSize);							  // move the iterator forward by the pair element size
+		main.insert(main.end(), it, std::next(it, pairElementSize)); // insert the pair into the main container
 	}
 	if (isOdd)
-		odd.insert(odd.end(), end, end + pairElementSize);								// insert the odd element into the odd container if applicable
-	leftover.insert(leftover.end(), end + (isOdd * pairElementSize), _container.end()); // insert the leftover (whatever was left smaller than a pair element) into the leftover container
+		odd.insert(odd.end(), end, std::next(end, pairElementSize));							  // insert the odd element into the odd container if applicable
+	leftover.insert(leftover.end(), std::next(end, (isOdd * pairElementSize)), _container.end()); // insert the leftover (whatever was left smaller than a pair element) into the leftover container
 
 	if (verbose)
 	{
@@ -142,7 +142,7 @@ for (Citerator it = start; it + pairElementSize * 2 <= end; it += pairElementSiz
 		_printContainer(leftover);
 		std::cout << std::endl;
 	}
-	if (!pend.empty() || isOdd || !leftover.empty()) // if there is anything left to insert
+	if (!pend.empty() || isOdd || !leftover.empty())		 // if there is anything left to insert
 		_insert(main, pend, odd, leftover, pairElementSize); // insert the pend container into the main container
 	if (pairElementSize == 1)
 	{ // on the last iteration, set the end time
@@ -152,10 +152,12 @@ for (Citerator it = start; it + pairElementSize * 2 <= end; it += pairElementSiz
 			std::cout << "Not sorted!" << std::endl;
 			return;
 		}
-		std::cout << std::endl << BLUE"Sorted " << _container.size() << " values with Ford-Johnson!"RESET << std::endl;
+		std::cout << std::endl
+				  << BLUE "Sorted " << _container.size() << " values with Ford-Johnson!" RESET << std::endl;
 		std::cout << "Comparisons: " << _comparisons << std::endl;
 		std::cout << "Elapsed time: " << _getElapsedTimeMS() << " ms" << std::endl;
-		std::cout << "Container type: " << _containerType() << std::endl << std::endl;
+		std::cout << "Container type: " << _containerType() << std::endl
+				  << std::endl;
 	}
 }
 

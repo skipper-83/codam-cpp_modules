@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 #include <vector>
 #include <deque>
+#include <list>
 
 bool setVerbose(int *argc, char ***argv)
 {
@@ -35,6 +36,11 @@ int main(int argc, char **argv)
 
 		p_deq.sort(verbose);
 		p_copy2.qsort();
+		// std::cout << p_copy2;
+
+		PmergeMe<std::list<int> > p_list(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		p_list.sort(verbose);
+
 	}
 	catch (const char *e)
 	{

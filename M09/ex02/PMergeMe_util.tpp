@@ -26,9 +26,9 @@ float PmergeMe<C>::_getElapsedTimeMS()
 template <typename C>
 bool PmergeMe<C>::isSorted()
 {
-	for (Citerator it = _container.begin(); it != _container.end() - 1; it++)
+	for (Citerator it = _container.begin(); it != std::next(_container.end(), -1); it = std::next(it, 1))
 	{
-		if (*it > *(it + 1))
+		if (*it > *(std::next(it, 1)))
 			return false;
 	}
 	return true;
