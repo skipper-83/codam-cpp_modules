@@ -24,6 +24,11 @@ sort:
 	@NUMBERS=$$(shuf -i 1-100000 -n $(word 2, $(MAKECMDGOALS)) | tr '\n' ' '); \
 	./$(NAME) $$NUMBERS
 
+verbose:
+	@echo "Sorting $(word 2, $(MAKECMDGOALS)) elements"
+	@NUMBERS=$$(shuf -i 1-100 -n $(word 2, $(MAKECMDGOALS)) | tr '\n' ' '); \
+	./$(NAME) $$NUMBERS -v
+
 run: $(NAME)
 	@./$(NAME)
 
