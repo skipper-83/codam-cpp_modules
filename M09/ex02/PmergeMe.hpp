@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <iterator>
+#include <algorithm>
 
 #define BLUE "\033[1;34m"
 #define RED "\033[1;31m"
@@ -20,8 +22,8 @@ private:
 	PmergeMe();
 
 	C _container;
-	std::chrono::time_point<std::chrono::steady_clock> _startTime;
-	std::chrono::time_point<std::chrono::steady_clock> _endTime;
+	std::chrono::high_resolution_clock::time_point _startTime;
+	std::chrono::high_resolution_clock::time_point _endTime;
 	size_t _comparisons;
 
 	// sort helper functions

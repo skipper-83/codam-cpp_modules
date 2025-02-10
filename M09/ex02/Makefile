@@ -1,5 +1,5 @@
 CC = c++
-CCFLAGS = -Wall -Werror -Wextra -std=c++98
+CCFLAGS = -Wall -Werror -Wextra -std=c++11
 RM = rm -f
 SRCS = main.cpp
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
@@ -11,13 +11,18 @@ $(NAME): $(OBJS)
 	$(CC) $(CCFLAGS) -o $(NAME) $(OBJS)
 
 qsort: CCFLAGS += -DQSORT
-qsort: $(NAME)
+qsort: fclean $(NAME)
 
 all_containers: CCFLAGS += -DALL_CONTAINERS
 all_containers: fclean $(NAME)
 
 everything: CCFLAGS += -DQSORT -DALL_CONTAINERS
 everything: fclean $(NAME)
+
+sort:
+	@echo "Sorting $(word 2, $(MAKECMDGOALS)) elements"
+	@NUMBERS=$$(shuf -i 1-100000 -n $(word 2, $(MAKECMDGOALS)) | tr '\n' ' '); \
+	./$(NAME) $$NUMBERS
 
 run: $(NAME)
 	@./$(NAME)
@@ -32,6 +37,9 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+
+%:
+	@:
 
 %.o: %.cpp
 	$(CC) $(CCFLAGS) -c $< -o $@

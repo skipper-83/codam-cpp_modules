@@ -48,7 +48,7 @@ void PmergeMe<C>::qsort()
 		std::cout << "Not sorted!" << std::endl;
 		return;
 	}
-	std::cout << std::endl << RED"Sorted " << _container.size() << " values with QuickSort"RESET << std::endl;
+	std::cout << std::endl << RED << "Sorted " << _container.size() << " values with QuickSort" << RESET << std::endl;
 	std::cout << "Comparisons: " << _comparisons << std::endl;
 	std::cout << "Elapsed time: " << _getElapsedTimeMS() << " ms" << std::endl;
 	std::cout << "Container type: " << _containerType() << std::endl << std::endl;
