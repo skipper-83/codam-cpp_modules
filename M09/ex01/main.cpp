@@ -1,4 +1,5 @@
 #include "RPN.hpp"
+#include <iostream>
 
 int main(int argc, char **argv)
 {
@@ -7,7 +8,13 @@ int main(int argc, char **argv)
         std::cerr << "Usage: ./rpn \"expression\"" << std::endl;
         return 1;
     }
-    RPN rpn(argv[1]);
-    std::cout << rpn.calculate() << std::endl;
+    try 
+    {
+        RPN rpn(argv[1]);
+        std::cout << rpn.calculate() << std::endl;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
