@@ -6,100 +6,145 @@
 #include <iostream>
 #include <string>
 
+#define RED "\033[31m"
+#define RESET "\033[0m"
+
 RPN::RPN(std::string expression)
 {
-    std::stringstream ss(expression);
-    std::string word;
-    int nbr;
-    int (*op)(int, int);
-    int operatorCount = 0, numberCount = 0;
+	try
+	{
+		_parseExpression(expression);
+	}
+	catch (std::exception &e)
+	{
+		throw(std::invalid_argument(std::string("Cannot construct RPN object: ") + std::string(e.what())));
+	}
+}
 
-    while (ss >> word)
-    {
-        RPNElem newElement;
-        std::cout << word << std::endl;
-        try {
-            nbr = std::stoi(word);
-            std::cout << "Number: " << nbr << std::endl;
-            operatorCount = 0;
-            ++numberCount;
-            if (numberCount > 2)
-                throw std::invalid_argument("Error: too many numbers at " + word);
-            newElement.value = nbr;
-            newElement.operation = nullptr;
-            _stack.push(newElement);
-
-        } catch (std::exception &e) {
-            std::cout << "Not a number, maybe a word?" << std::endl;
-            if ((op = _getOperation(word)) != nullptr)
-            {
-                numberCount = 0;
-                ++operatorCount;
-                if (operatorCount > 1)
-                    throw std::invalid_argument("Error: too many operators at " + word);
-
-                _stack.push(newElement);
-                std::cout << "Operator: " << word << std::endl;
-                if (word=="*")
-                     newElement.operation(1,2);
-
-            }
-            else
-                throw std::invalid_argument("Error: [" + word + "] is not a number or an operator");
-        }
-    }
+RPN::RPN(const RPN &original)
+{
+	_expression = original._expression;
 }
 
 RPN::~RPN()
 {
 }
 
+RPN &RPN::operator=(const RPN &original)
+{
+	if (this != &original)
+	{
+		_expression = original._expression;
+	}
+	return *this;
+}
+
 int RPN::calculate()
 {
-    std::cout << "Calculating" << std::endl;
-    return 0;
+	while (_expression.size() > 0)
+	{
+		RPNElem elem = _expression.front();
+		_expression.erase(_expression.begin());
+		if (elem.operation == nullptr)
+			_stack.push(elem.value);
+		else
+		{
+			int b = _stack.top();
+			_stack.pop();
+			int a = _stack.top();
+			_stack.pop();
+			_stack.push((this->*elem.operation)(a, b));
+		}
+	}
+
+	return _stack.top();
 }
 
-
-int RPN::_mult(int a, int b)
-{
-    std::cout << "mul1";
-    return a * b;
-}
-
+int RPN::_mult(int a, int b) { return a * b; }
+int RPN::_add(int a, int b) { return a + b; }
+int RPN::_sub(int a, int b) { return a - b; }
 int RPN::_div(int a, int b)
 {
-    return a / b;
+	if (b == 0)
+		throw std::invalid_argument("Error: division by zero.");
+	return a / b;
 }
 
-int RPN::_add(int a, int b)
+operatorFunction RPN::_getOperation(std::string op)
 {
-    return a + b;
+	if (op.size() != 1)
+		return nullptr;
+
+	switch (op[0])
+	{
+	case '*':
+		return &RPN::_mult;
+		break;
+	case '/':
+		return &RPN::_div;
+		break;
+	case '+':
+		return &RPN::_add;
+		break;
+	case '-':
+		return &RPN::_sub;
+		break;
+	default:
+		return nullptr;
+		break;
+	}
 }
 
-int RPN::_sub(int a, int b)
+void RPN::_parseExpression(std::string expression)
 {
-    return a - b;
+	std::stringstream ss(expression);
+	std::string word;
+	int nbr;
+	operatorFunction op;
+	int operatorCount = 0, numberCount = 0;
+
+	while (ss >> word)
+	{
+		RPNElem newElement;
+		if (_parseNumber(word, nbr))
+		{
+			if (nbr > 9)
+				throw std::invalid_argument(std::string("Error: " RED) + word + RESET " is too big, numbers larger than 9 are not supported.");
+			++numberCount;
+			newElement.value = nbr;
+			newElement.operation = nullptr;
+			_expression.push_back(newElement);
+		}
+		else
+		{
+			if ((op = _getOperation(word)) != nullptr)
+			{
+				if (numberCount < 2)
+					throw std::invalid_argument("Error: not enough numbers before first operator.");
+				newElement.operation = op;
+				newElement.value = 0;
+				++operatorCount;
+				_expression.push_back(newElement);
+			}
+			else
+				throw std::invalid_argument(std::string("Error: " RED) + word + RESET " is not a number or an operator");
+		}
+	}
+	if (numberCount - operatorCount > 1)
+		throw std::invalid_argument(std::string("Error: not enough operators in expression"));
+	if (numberCount - operatorCount < 1)
+		throw std::invalid_argument(std::string("Error: too many operators in expression."));
 }
 
-int (*f)(int,int) RPN::_getOperation(std::string op)
+bool RPN::_parseNumber(std::string &word, int &value)
 {
-    switch (op[0])
-    {
-    case '*':
-        return &RPN::_mult;
-        break;
-    case '/':
-        return &RPN::_div;
-        break;
-    case '+':
-        return &RPN::_add;
-        break;
-    case '-':
-        return &RPN::_sub;
-        break;
-    default:
-        throw std::invalid_argument("Error: [" + op + "] is not a valid operator");
-        break;
-    }
+	try
+	{
+		value = std::stoi(word);
+		return true;
+	}
+	catch (std::exception &e)
+	{
+		return false;
+	}
 }

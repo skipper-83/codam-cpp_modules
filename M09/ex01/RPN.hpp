@@ -5,6 +5,10 @@
 #include <stack>
 #include <vector>
 
+class RPN;
+
+using operatorFunction = int (RPN::*)(int, int);
+
 class RPN {
     public:
         RPN(std::string expression);
@@ -17,7 +21,7 @@ class RPN {
     
     typedef struct RPNElem {
         int value;
-        int (*operation)(int,int);
+        operatorFunction operation;
     } RPNElem;
 
     private:
@@ -26,9 +30,11 @@ class RPN {
         int _div(int a, int b);
         int _add(int a, int b);
         int _sub(int a, int b);
-        std::stack<RPNElem> _stack;
-        int (*f)(int, int);
-        int _getOperation(std::string op);
+        std::vector<RPNElem> _expression;
+		std::stack<int> _stack;
+        operatorFunction _getOperation(std::string operation);
+		void _parseExpression(std::string expression);
+		bool _parseNumber(std::string &word, int &value);
 };
 
 #endif
