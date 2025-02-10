@@ -4,31 +4,36 @@ template <typename C>
 typename PmergeMe<C>::Citerator PmergeMe<C>::_partition(Citerator start, Citerator end)
 {
 	ValueType pivot = *end;
-	Citerator i = start - 1;
+	Citerator i = start;
 
-	for (Citerator j = start; j < end; j++)
+	for (Citerator j = start; j != end; std::advance(j, 1))
 	{
 		_comparisons++;
 		if (*j < pivot)
 		{
-			i++;
 			std::swap(*i, *j);
+			std::advance(i, 1);
 		}
 	}
 
-	std::swap(*(i + 1), *end);
-	return i + 1;
+	std::swap(*i, *end);
+    return i;
 }
 
 template <typename C>
 void PmergeMe<C>::qsort(Citerator start, Citerator end)
 {
-	if (start < end)
-	{
-		Citerator pi = _partition(start, end);
-		qsort(start, pi - 1);
-		qsort(pi + 1, end);
-	}
+    // Use std::distance for non-random access iterators
+    if (std::distance(start, end) > 0)
+    {
+        Citerator partitionIndex = _partition(start, end);
+        
+        if (partitionIndex != start)
+            qsort(start, std::prev(partitionIndex));
+        
+        if (partitionIndex != end)
+            qsort(std::next(partitionIndex), end);
+    }
 }
 
 
@@ -36,7 +41,7 @@ template <typename C>
 void PmergeMe<C>::qsort()
 {
 	_setStartTime();
-	qsort(_container.begin(), _container.end() - 1);
+	qsort(_container.begin(), std::prev(_container.end()));
 	_setEndTime();
 	if (!isSorted())
 	{

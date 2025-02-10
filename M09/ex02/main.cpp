@@ -31,21 +31,30 @@ int main(int argc, char **argv)
 	{
 		PmergeMe<std::vector<int> > vectorContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
 		PmergeMe<std::deque<int> > deQueContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+		#ifdef QSORT
+			PmergeMe<std::vector<int> > vectorContainerCopy = vectorContainer;
+			PmergeMe<std::deque<int> > deQueContainerCopy = deQueContainer;
+		#endif
+		#ifdef ALL_CONTAINERS
+			PmergeMe<std::list<int> > listContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
+			#ifdef QSORT
+				PmergeMe<std::list<int> > listContainerCopy = listContainer;
+			#endif
+		#endif
 
-		
 		vectorContainer.sort(verbose);
 		deQueContainer.sort(verbose);
 
 		#ifdef QSORT
-			PmergeMe<std::vector<int> > vectorContainerCopy = vectorContainer;
-			PmergeMe<std::deque<int> > deQueContainerCopy = deQueContainer;
 			vectorContainerCopy.qsort();
 			deQueContainerCopy.qsort();
 		#endif
 
 		#ifdef ALL_CONTAINERS
-			PmergeMe<std::list<int> > listContainer(argc, argv); // create a PmergeMe object, passing the number of arguments and the arguments
 			listContainer.sort(verbose);
+			#ifdef QSORT
+				listContainerCopy.qsort();
+			#endif
 		#endif
 
 	}
