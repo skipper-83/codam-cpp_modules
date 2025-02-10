@@ -20,20 +20,26 @@ private:
 	PmergeMe();
 
 	C _container;
-	time_t _startTime;
-	time_t _endTime;
+	std::chrono::time_point<std::chrono::steady_clock>  _startTime;
+	std::chrono::time_point<std::chrono::steady_clock>  _endTime;
 	size_t _comparisons;
 
 	// sort helper functions
 	size_t _jacobsthal(size_t n);
-	void _insert(C &main, C &pend, C &odd, C &leftover, int pairElementSize);
 	Citerator _upperBound(Citerator start, Citerator end, ValueType value, int pairElementSize);
+	
+	// QuickSort helper functions
+	Citerator _partition(Citerator start, Citerator end);
+	void qsort(Citerator start, Citerator end);
+
+	// insertion functions
+	void _insert(C &main, C &pend, C &odd, C &leftover, int pairElementSize);
 	void _insertSingleRange(C &main, C &pend, int pairElementSize);
 
 	// time functions
 	void _setStartTime();
 	void _setEndTime();
-	time_t _getElapsedTime();
+	float _getElapsedTimeMS();
 
 	// parsing
 	bool _isPositiveInteger(ValueType &number, const std::string &s);
@@ -41,6 +47,7 @@ private:
 	// printing
 	void _printPairs(std::string msg, Citerator start, Citerator end, int pairSize, C &container, bool onlyElements = false, bool printRed = false, Citerator redStart = Citerator(), Citerator redEnd = Citerator(), bool printBlue = false, Citerator blueStart = Citerator(), Citerator blueEnd = Citerator());
 	void _printContainer(C &container);
+	std::string _containerType();
 	bool _verbose;
 
 public:
@@ -58,18 +65,25 @@ public:
 
 	// sort functions
 	void sort(bool verbose = false);
+	void qsort();
 	bool isSorted();
 };
 
-// SORT FUNCTIONS
+#include "PMergeMe_printing.tpp"
+#include "PMergeMe_constructors.tpp"
+#include "PMergeMe_insert.tpp"
+#include "PMergeMe_upperBound.tpp"
+#include "PMergeMe_util.tpp"
+#include "PMergeMe_quicksort.tpp"
+
+
 template <typename C>
 void PmergeMe<C>::sort(bool verbose)
 {
 	static int pairElementSize = 1;
-	if (pairElementSize == 1)
-	{ // on the first iteration, set the start time
-	  // _setStartTime();
-	}
+	if (pairElementSize == 1) // on the first iteration, set the start time
+	  _setStartTime();
+	
 	int pairElementCount = _container.size() / pairElementSize; // number of pairs elements
 	if (pairElementCount < 2)									// if there is less than two pair elements, we cannot make a pair and are done
 		return;
@@ -84,12 +98,15 @@ void PmergeMe<C>::sort(bool verbose)
 		_printPairs(std::string(BLUE "Pairs of " RESET + std::to_string(pairElementSize) + "\n\t"), start, end, pairElementSize, _container);
 
 	// PAIR SWAP PART
-	for (Citerator it = start; it != end; it += pairElementSize * 2) // loop through pairs, iterator increases with pairsize * 2 so we skip the pairs we already merged
-	{
-		_comparisons++;
-		if (*(it + pairElementSize - 1) > *(it + pairElementSize * 2 - 1))	  // if the last element of the first pair is greater than the last element of the second pair, we must swap the pairs
-			std::swap_ranges(it, it + pairElementSize, it + pairElementSize); // swap the pairs;
-	}
+for (Citerator it = start; it + pairElementSize * 2 <= end; it += pairElementSize * 2)  
+{
+    Citerator firstPairLast = it + (pairElementSize - 1);  // Last element of first pair
+    Citerator secondPairLast = it + (pairElementSize * 2 - 1);  // Last element of second pair
+
+    _comparisons++;
+    if (*firstPairLast > *secondPairLast)  // Compare last elements of the pairs
+        std::swap_ranges(it, it + pairElementSize, it + pairElementSize);  // Swap entire pair
+}
 	if (_verbose)
 	{
 		_printPairs(std::string(RED "Swapped pairs of " RESET + std::to_string(pairElementSize) + "\n\t"), start, end, pairElementSize, _container);
@@ -129,329 +146,17 @@ void PmergeMe<C>::sort(bool verbose)
 		_insert(main, pend, odd, leftover, pairElementSize); // insert the pend container into the main container
 	if (pairElementSize == 1)
 	{ // on the last iteration, set the end time
-		// _setEndTime();
+		_setEndTime();
+		if (!isSorted())
+		{
+			std::cout << "Not sorted!" << std::endl;
+			return;
+		}
+		std::cout << std::endl << BLUE"Sorted " << _container.size() << " values with Ford-Johnson!"RESET << std::endl;
 		std::cout << "Comparisons: " << _comparisons << std::endl;
-		std::cout << "Sorted: " << (isSorted() ? "Yes!" : "Nooooo") << std::endl;
+		std::cout << "Elapsed time: " << _getElapsedTimeMS() << " ms" << std::endl;
+		std::cout << "Container type: " << _containerType() << std::endl << std::endl;
 	}
-}
-
-template <typename C>
-bool PmergeMe<C>::isSorted()
-{
-	for (Citerator it = _container.begin(); it != _container.end() - 1; it++)
-	{
-		if (*it > *(it + 1))
-			return false;
-	}
-	return true;
-}
-
-// SORT HELPER FUNCTIONS
-template <typename C>
-size_t PmergeMe<C>::_jacobsthal(size_t n)
-{
-	return ((pow(2, n) - pow(-1, n)) / 3);
-}
-
-template <typename C>
-void PmergeMe<C>::_insertSingleRange(C &main, C &pend, int pairElementSize)
-{
-	Citerator insertStart, pendRangeIdentifier;
-
-	pendRangeIdentifier = pend.begin() + pairElementSize - 1;
-	insertStart = _upperBound(main.begin(), main.end(), *pendRangeIdentifier, pairElementSize);
-	main.insert(insertStart, pend.begin(), pend.end());
-
-	Citerator insertedRangePosition = std::find(main.begin(), main.end(), *pend.begin());
-	
-	if (_verbose)
-		_printPairs("New main:\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, insertedRangePosition + pairElementSize - 1);
-}
-
-template <typename C>
-void PmergeMe<C>::_insert(C &main, C &pend, C &odd, C &leftover, int pairElementSize)
-{
-	if (_verbose)
-	{
-		std::cout << "Inserting pend into main for: " << pairElementSize << std::endl;
-		_printPairs("Main:\n\t", main.begin(), main.end(), pairElementSize, main, true);
-		_printPairs("Pend\n\t", pend.begin(), pend.end(), pairElementSize, pend, true);
-	}
-
-	Citerator boundEnd, insertStart, pendRangeStart, pendRangeEnd, pendRangeIdentifier ,insertedRangePosition;
-	if (pend.size() == pairElementSize) // if the pend container only has one element, we don't use Jacobsthal optimization
-	{
-		if (_verbose)
-			std::cout << "Pend has only one range, inserting directly" << std::endl;
-		_insertSingleRange(main, pend, pairElementSize);
-	}
-	else if (pend.size() > pairElementSize)
-	{								// this function can be called with an empty pend
-		size_t jacobsthalIndex = 3; // start with the third Jacobsthal number
-		size_t prevJacobsthal = 1;	// the previous Jacobsthal number inits to 1
-		size_t currentJacobsthal = 3;	//
-		size_t totalInsertions = 0;
-		size_t insertionIndex;
-		int offset = 0;
-
-		while (!pend.empty())
-		{
-			currentJacobsthal = _jacobsthal(jacobsthalIndex);						 // get the current Jacobsthal number
-			insertionIndex = (currentJacobsthal - prevJacobsthal) * pairElementSize; // calculate the insertion index
-			if (insertionIndex > pend.size())										 // we can't insert more than the size of the pend container
-				insertionIndex = pend.size();
-			while (insertionIndex > 0)
-			{
-				boundEnd = main.begin();										  // reset the iterator
-				pendRangeStart = pend.begin() + insertionIndex - pairElementSize; // the start of the range to insert
-				pendRangeIdentifier = pend.begin() + insertionIndex - 1;		  // the identifier of the range to insert
-				pendRangeEnd = pend.begin() + insertionIndex;					  // the end bound of the range to insert (extra vars for readability)
-
-				if (_verbose)
-					std::cout << std::endl << "Inserting at index " << insertionIndex / pairElementSize << " for Jacobsthal number: " << currentJacobsthal << std::endl;
-				
-				// set the upper bound of the search area to the Jacobsthal number + the total insertions * pair size
-				boundEnd = main.begin() + ((currentJacobsthal + totalInsertions - offset) * pairElementSize ); // set the upper bound to the Jacobsthal number + the total insertions * pair size
-				if (boundEnd > main.end())
-					boundEnd = main.end(); // if the bound is greater than the end of the main container, set it to the end of the main container
-
-				if (_verbose)
-				{
-					_printPairs("Main:\n\t", main.begin(), main.end(), pairElementSize, main, true, true, boundEnd, boundEnd + pairElementSize - 1, false, Citerator(), Citerator());
-					_printPairs("Pend\n\t", pend.begin(), pend.end(), pairElementSize, pend, true, false, Citerator(), Citerator(), true, pendRangeStart, pendRangeIdentifier);
-				}
-
-				insertStart = _upperBound(main.begin(), boundEnd, *pendRangeIdentifier, pairElementSize);
-				insertedRangePosition = main.insert(insertStart, pendRangeStart, pendRangeEnd);
-				
-				offset += insertedRangePosition - main.begin() == (currentJacobsthal + totalInsertions) * pairElementSize; // if we inserted at the end of the Jacobsthal number, we can decrease the bound by one pair to limit the search space				
-				if (_verbose)
-					_printPairs("New main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, insertedRangePosition, insertedRangePosition + pairElementSize - 1);
-
-				pend.erase(pendRangeStart, pendRangeEnd); // erase the inserted range from the pend container
-
-				insertionIndex -= pairElementSize; // decrease the insertion index by the pair size
-				boundEnd = main.begin() + ((currentJacobsthal + totalInsertions) * pairElementSize); // set the upper bound to the Jacobsthal number + the total insertions * pair size
-			}
-			totalInsertions += currentJacobsthal - prevJacobsthal;
-			++jacobsthalIndex;
-			prevJacobsthal = currentJacobsthal;
-			offset = 0;
-		}
-	}
-	if (!odd.empty()) // if there is an odd element, insert it into the main container
-	{
-		if(_verbose)
-			std::cout << std::endl << "Inserting odd into main" << std::endl;
-		_insertSingleRange(main, odd, pairElementSize);
-	}
-	if (!leftover.empty()) // if there is a leftover, insert it into the main container
-	{
-		main.insert(main.end(), leftover.begin(), leftover.end()); // insert the leftover into the main container
-		if (_verbose)
-			_printPairs("\nInserting leftover into main\n\t", main.begin(), main.end(), pairElementSize, main, true, false, Citerator(), Citerator(), true, main.begin() + (main.size() - (main.size() % pairElementSize)), main.end());
-	}
-	if (_verbose)
-		std::cout << std::endl;
-	_container = main; // set the main container as the new container
-}
-
-template <typename C>
-typename PmergeMe<C>::Citerator PmergeMe<C>::_upperBound(Citerator start, Citerator end, ValueType value, int pairElementSize)
-{
-	Citerator result = end;
-
-	while (start != end)
-	{
-
-		/*
-		Binary search for the upper bound of the value in the range [start, end)
-		this algorithm assumes that the range is sorted in ascending order, it starts
-		by checking the middle element of the range and compares it with the value
-		if the value is less than the middle element, the search narrows to the left half
-		otherwise, the search narrows to the right half, and so on until the range is empty
-		*/
-
-		Citerator mid = start;
-		std::advance(mid, std::distance(start, end) / 2); // Get the middle element
-
-		ptrdiff_t offset = std::distance(start, mid) % pairElementSize; // Calculate the offset from the start of an element -- we need to check the last element of the group
-		if (offset != 0)
-			std::advance(mid, -offset); // if there is an offset, move the iterator to the start of the group
-
-		// Get the identifier of the checked element
-		int identifierOfCheckedElement = *(std::next(mid, pairElementSize - 1));
-
-		// Compare the identifier with the value
-		_comparisons++;
-		if (value < identifierOfCheckedElement)
-		{
-			result = mid; // Move result to mid
-			end = mid;	  // Narrow the search to the left half
-		}
-		else
-			start = std::next(mid, pairElementSize); // Narrow the search to the right half
-	}
-
-	return result;
-}
-
-// PRINT FUNCTIONS
-
-template <typename C>
-void PmergeMe<C>::_printPairs(std::string msg, Citerator start, Citerator end, int pairSize, C &container, bool onlyElements, bool printRed, Citerator redStart, Citerator redEnd, bool printBlue, Citerator blueStart, Citerator blueEnd)
-{
-	std::cout << msg;
-	if (container.empty())
-	{
-		std::cout << "<none>" << std::endl;
-		return;
-	}
-	int halfPair = 0;
-	int fullPair = 0;
-	for (Citerator it = start; it < end; it++)
-	{
-		if (fullPair == 0 && !onlyElements)
-			std::cout << "[";
-		if (printRed && it == redStart)
-			std::cout << RED;
-		if (printBlue && it == blueStart)
-			std::cout << BLUE;
-		if (halfPair == 0)
-			std::cout << "{";
-		std::cout << *it;
-		++fullPair;
-		++halfPair;
-		if (halfPair == pairSize)
-		{
-			std::cout << "}";
-			halfPair = 0;
-			if (fullPair == pairSize * 2 && !onlyElements)
-			{
-				std::cout << "] ";
-				fullPair = 0;
-			}
-			else if (!onlyElements)
-				std::cout << " - ";
-			else
-				std::cout << " ";
-		}
-		else
-			std::cout << " ";
-		if (printRed && it == redEnd || printBlue && it == blueEnd)
-			std::cout << RESET;
-	}
-	if (end != container.end())
-	{
-		for (Citerator it = end; it != container.end(); it++)
-			std::cout << *it << " ";
-	}
-	if (printBlue || printRed)
-		std::cout << RESET; // reset color if upper bound is end of container
-	std::cout << std::endl;
-}
-
-template <typename C>
-void PmergeMe<C>::_printContainer(C &container)
-{
-	if (container.empty())
-	{
-		std::cout << "<none>" << std::endl;
-		return;
-	}
-	for (Citerator it = container.begin(); it != container.end(); it++)
-	{
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
-}
-
-template <typename C>
-std::ostream &operator<<(std::ostream &os, PmergeMe<C> &p)
-{
-	for (typename C::iterator it = p.begin(); it != p.end(); it++)
-	{
-		os << *it << " ";
-	}
-	os << std::endl;
-	return os;
-}
-
-// ITERATORS
-
-template <typename C>
-typename C::iterator PmergeMe<C>::begin()
-{
-	return _container.begin();
-}
-
-template <typename C>
-typename C::iterator PmergeMe<C>::end()
-{
-	return _container.end();
-}
-
-// HELPER FUNCTIONS
-
-template <typename C>
-bool PmergeMe<C>::_isPositiveInteger(ValueType &number, const std::string &s)
-{
-	try
-	{
-		number = std::stoi(s);
-		if (number < 0)
-		{
-			return false;
-		}
-	}
-	catch (std::invalid_argument &e)
-	{
-		std::cerr << "Invalid argument: " << s << std::endl;
-		return false;
-	}
-	catch (std::out_of_range &e)
-	{
-		std::cerr << "Out of range: " << s << std::endl;
-		return false;
-	}
-	return true;
-}
-
-// CONSTRUCTORS AND DESTRUCTORS
-
-template <typename C>
-PmergeMe<C>::PmergeMe(int argc, char **argv)
-{
-	ValueType n;
-	for (int i = 1; i < argc; i++)
-	{
-		if (!_isPositiveInteger(n, argv[i]))
-		{
-			throw "Can't construct PmergeMe";
-		}
-		_container.push_back(n);
-	}
-	_comparisons = 0;
-	_verbose = false;
-}
-
-template <typename C>
-PmergeMe<C>::PmergeMe(const PmergeMe &original)
-{
-	_container = original._container;
-}
-
-template <typename C>
-PmergeMe<C> &PmergeMe<C>::operator=(const PmergeMe &rhs)
-{
-	if (this != &rhs)
-		_container = rhs._container;
-	return *this;
-}
-
-template <typename C>
-PmergeMe<C>::~PmergeMe()
-{
 }
 
 #endif
