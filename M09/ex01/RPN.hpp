@@ -3,7 +3,6 @@
 
 #include <string>
 #include <stack>
-#include <vector>
 
 class RPN;
 
@@ -20,10 +19,10 @@ class RPN {
 
     private:
         RPN();
-		// std::string _parsedExpression;
-        // std::vector<RPNElem> _expression;
+		
 		std::string _expression;
 		std::stack<int> _stack;
+
 		void _parseExpression(std::string expression);
 		bool _parseNumber(std::string &word, int &value);
 		bool _isOperator(std::string &word);
