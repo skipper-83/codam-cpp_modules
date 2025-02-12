@@ -8,7 +8,7 @@ PmergeMe<C>::PmergeMe(int argc, char **argv)
 	{
 		if (!_isPositiveInteger(n, argv[i]))
 		{
-			throw "Can't construct PmergeMe";
+			throw "Can't construct PmergeMe: negative or non-integer value passed as argument";
 		}
 		_container.push_back(n);
 	}
@@ -26,7 +26,11 @@ template <typename C>
 PmergeMe<C> &PmergeMe<C>::operator=(const PmergeMe &rhs)
 {
 	if (this != &rhs)
+	{
 		_container = rhs._container;
+		_verbose = rhs._verbose;
+		_comparisons = rhs._comparisons;
+	}
 	return *this;
 }
 

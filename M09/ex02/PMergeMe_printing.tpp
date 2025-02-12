@@ -71,6 +71,13 @@ void PmergeMe<C>::_printContainer(C &container)
 template <typename C>
 std::string PmergeMe<C>::_containerType()
 {
+	std::string type = typeid(_container).name();
+	if (type == "St6vectorIiSaIiEE")
+		return "std::vector<int>";
+	if (type == "St5dequeIiSaIiEE")
+		return "std::deque<int>";
+	if (type == "NSt7__cxx114listIiSaIiEEE")
+		return "std::list<int>";
 	return typeid(_container).name();
 }
 

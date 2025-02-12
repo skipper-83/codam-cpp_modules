@@ -81,9 +81,22 @@ public:
 template <typename C>
 void PmergeMe<C>::sort(bool verbose)
 {
+	if (_container.size() < 2)
+	{
+		std::cout << std::endl
+				  << BLUE "Sorted " << _container.size() << " values with Ford-Johnson" << RESET << std::endl;
+		std::cout << "Container with 1 or 0 elements is already sorted." << std::endl;
+		std::cout << "Before: " << *this << std::endl;
+		std::cout << "After: " << *this << std::endl;
+		return;
+	}
 	static int pairElementSize = 1;
 	if (pairElementSize == 1) // on the first iteration, set the start time
+	{
+		std::cout << std::endl << BLUE << "Sorting " << _container.size() << " values with Ford-Johnson" << RESET << std::endl;
+		std::cout << "Before: " << *this;
 		_setStartTime();
+	}
 
 	int pairElementCount = _container.size() / pairElementSize; // number of pairs elements
 	if (pairElementCount < 2)									// if there is less than two pair elements, we cannot make a pair and are done
@@ -149,17 +162,15 @@ void PmergeMe<C>::sort(bool verbose)
 	if (pairElementSize == 1)
 	{ // on the last iteration, set the end time
 		_setEndTime();
+		std::cout << "After: " << *this;
 		if (!isSorted())
 		{
 			std::cout << "Not sorted!" << std::endl;
 			return;
 		}
-		std::cout << std::endl
-				  << BLUE "Sorted " << _container.size() << " values with Ford-Johnson!" RESET << std::endl;
 		std::cout << "Comparisons: " << _comparisons << std::endl;
 		std::cout << "Elapsed time: " << _getElapsedTimeMS() << " ms" << std::endl;
-		std::cout << "Container type: " << _containerType() << std::endl
-				  << std::endl;
+		std::cout << "Container type: " << _containerType() << std::endl;
 	}
 }
 

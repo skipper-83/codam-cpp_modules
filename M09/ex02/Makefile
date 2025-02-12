@@ -19,12 +19,12 @@ all_containers: fclean $(NAME)
 everything: CCFLAGS += -DQSORT -DALL_CONTAINERS
 everything: fclean $(NAME)
 
-sort:
+sort: $(NAME)
 	@echo "Sorting $(word 2, $(MAKECMDGOALS)) elements"
 	@NUMBERS=$$(shuf -i 1-100000 -n $(word 2, $(MAKECMDGOALS)) | tr '\n' ' '); \
 	./$(NAME) $$NUMBERS
 
-verbose:
+verbose: $(NAME)
 	@echo "Sorting $(word 2, $(MAKECMDGOALS)) elements"
 	@NUMBERS=$$(shuf -i 1-100 -n $(word 2, $(MAKECMDGOALS)) | tr '\n' ' '); \
 	./$(NAME) $$NUMBERS -v

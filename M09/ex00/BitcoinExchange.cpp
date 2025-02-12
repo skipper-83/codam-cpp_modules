@@ -12,7 +12,7 @@
 
 BitcoinExchange::BitcoinExchange(std::string &dbFilePath)
 {
-	std::ifstream dbFile(dbFilePath);
+	std::ifstream dbFile(dbFilePath.c_str());
 	if (!dbFile.is_open())
 		throw std::runtime_error("Error: could not open database file");
 	std::string line;
@@ -29,18 +29,18 @@ BitcoinExchange::BitcoinExchange(std::string &dbFilePath)
 		std::istringstream lineStream(line);
 		if (!(lineStream >> year >> dash1 >> month >> dash2 >> day >> comma >> rate))
 		{
-			std::cerr << RED"Skipping line, invalid format: "RESET << line << std::endl;
+			std::cerr << RED << "Skipping line, invalid format: " << RESET << line << std::endl;
 			continue;
 		}
 		date = line.substr(0, line.find(','));
 		if (date.size() != 10 || !_validDate(year, month, day))
 		{
-			std::cerr << RED"Skipping line, invalid date: "RESET << date << std::endl;
+			std::cerr << RED << "Skipping line, invalid date: " << RESET << date << std::endl;
 			continue;
 		}
 		if (rate < 0)
 		{
-			std::cerr << RED"Skipping line, invalid rate: "RESET << rate << std::endl;
+			std::cerr << RED << "Skipping line, invalid rate: " << RESET << rate << std::endl;
 			continue;
 		}
 		// std::cout << "date: " << date << " rate: " << rate << std::endl;
@@ -64,17 +64,17 @@ bool BitcoinExchange::_validDate(int year, int month, int day)
 
 void BitcoinExchange::assetValuator(std::string filePath)
 {
-	std::ifstream assetFile(filePath);
+	std::ifstream assetFile(filePath.c_str());
 	if (!assetFile.is_open())
 	{
-		std::cerr << RED"Error: could not open asset file"RESET << std::endl;
+		std::cerr << RED << "Error: could not open asset file" << RESET << std::endl;
 		return;
 	}
 	std::string line;
 	std::getline(assetFile, line);
 	if (line != "date | value")
 	{
-		std::cerr << RED"Error: invalid header"RESET << std::endl;
+		std::cerr << RED << "Error: invalid header" << RESET << std::endl;
 		return;
 	}
 	while (std::getline(assetFile, line))
@@ -87,23 +87,23 @@ void BitcoinExchange::assetValuator(std::string filePath)
 
 		if (!(lineStream >> year >> dash >> month >> dash2 >> day >> pipe >> asset))
 		{
-			std::cerr << RED"Skipping line, invalid format: "RESET << line << std::endl;
+			std::cerr << RED << "Skipping line, invalid format: " << RESET << line << std::endl;
 			continue;
 		}
 		date = line.substr(0, line.find(" |"));
 		if (date.size() != 10 || !_validDate(year, month, day))
 		{
-			std::cerr << RED"Skipping line, invalid date: "RESET << date << std::endl;
+			std::cerr << RED << "Skipping line, invalid date: " << RESET << date << std::endl;
 			continue;
 		}
 		if (asset < 0 )
 		{
-			std::cerr << RED"Skipping line, asset negative: "RESET << asset << std::endl;
+			std::cerr << RED << "Skipping line, asset negative: " << RESET << asset << std::endl;
 			continue;
 		}
 		if (asset > 1000)
 		{
-			std::cerr << RED"Skipping line, asset too high: "RESET << asset << std::endl;
+			std::cerr << RED << "Skipping line, asset too high: " << RESET << asset << std::endl;
 			continue;
 		}
 		_getRate(date, asset);
@@ -115,11 +115,11 @@ void BitcoinExchange::_getRate(std::string date, float asset)
 	std::map<std::string, float>::iterator it = _exchangeRates.upper_bound(date);
 	if (it == _exchangeRates.begin())
 	{
-		std::cerr << RED"Asset date predates all DB values. Are you sure BTC existed on "BLUE << date << RED" ?"RESET << std::endl;
+		std::cerr << RED << "Asset date predates all DB values. Are you sure BTC existed on " << BLUE << date << RED << " ?" << RESET << std::endl;
 		return;
 	}
 	float rate = (--it)->second;
-	std::cout << "Date: "BLUE << date << RESET"\tasset:\t"GREEN"BTC " <<  asset << RESET"\trate:\t"YELLOW << rate << RESET"\tvalue:\t"GREEN"$ " << rate * asset << RESET << std::endl;
+	std::cout << "Date: " << BLUE << date << RESET << "\tasset:\t" << GREEN << "BTC " <<  asset <<  RESET << "\trate:\t" << YELLOW << rate <<  RESET << "\tvalue:\t" << GREEN << "$ " << rate * asset <<  RESET << std::endl;
 	(void)asset;
 
 	

@@ -23,7 +23,6 @@ typename PmergeMe<C>::Citerator PmergeMe<C>::_partition(Citerator start, Citerat
 template <typename C>
 void PmergeMe<C>::qsort(Citerator start, Citerator end)
 {
-    // Use std::distance for non-random access iterators
     if (std::distance(start, end) > 0)
     {
         Citerator partitionIndex = _partition(start, end);
@@ -40,6 +39,13 @@ void PmergeMe<C>::qsort(Citerator start, Citerator end)
 template <typename C>
 void PmergeMe<C>::qsort()
 {
+	if (_container.size() < 2)
+	{
+		std::cout << std::endl
+				  << RED "Sorted " << _container.size() << " values with QuickSort!" RESET << std::endl;
+		std::cout << "Container with 1 or 0 elements is already sorted." << std::endl;
+		return;
+	}
 	_setStartTime();
 	qsort(_container.begin(), std::prev(_container.end()));
 	_setEndTime();
@@ -51,5 +57,5 @@ void PmergeMe<C>::qsort()
 	std::cout << std::endl << RED << "Sorted " << _container.size() << " values with QuickSort" << RESET << std::endl;
 	std::cout << "Comparisons: " << _comparisons << std::endl;
 	std::cout << "Elapsed time: " << _getElapsedTimeMS() << " ms" << std::endl;
-	std::cout << "Container type: " << _containerType() << std::endl << std::endl;
+	std::cout << "Container type: " << _containerType() << std::endl;
 }

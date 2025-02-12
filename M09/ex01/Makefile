@@ -1,5 +1,5 @@
 CC = c++
-CCFLAGS = -Wall -Werror -Wextra -std=c++98
+CCFLAGS = -Wall -Werror -Wextra -std=c++11 # cpp11 is required for stoi
 
 RM = rm -f
 SRCS = main.cpp RPN.cpp

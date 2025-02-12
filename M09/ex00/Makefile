@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 run : $(NAME)
 	@./$(NAME)
 
-subject_input : $(NAME)
+intra_input : $(NAME)
 	@./$(NAME) subj_input.csv
 
 own_input : $(NAME)
