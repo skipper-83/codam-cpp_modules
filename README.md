@@ -1,0 +1,1 @@
+10 modules as an introduction to CPP and OOP for 42 school. Could use a touchup, but the Ford-Johson in Module 09/ex02 has a verbose mode so you can actually see what's happening, which might be useful ;)
